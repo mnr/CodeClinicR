@@ -1,60 +1,33 @@
 
-Problem 1
-Statistical Analysis - Exploring Lake Pend Oreille
+**Problem 1**
+
+**Statistical Analysis - Exploring Lake Pend Oreille**
+
 PRONUNCIATION TIP: Pend Oreille is pronounced “Pond O-Ray”
-Author says
-Action
+
 Hello, and welcome to Code Clinic. My name is ______ .
-b-roll or boothcam if available
+
 Code Clinic is a monthly course where a unique problem is introduced to a collection of lynda.com authors. In response, each author will create a solution using their programming language of choice. You can learn several things from Code Clinic: different approaches to solving a problem, the pros and cons of different languages, and some tips and tricks to incorporate into your own coding practices.
-b-roll or boothcam if available
+
 This month, we’ll work on a problem in statistical analysis and to some extent, handling big data. It’s common to use a computer to manipulate and summarize large amounts of information, providing important insights on how to improve or handle a situation.
-b-roll or boothcam if available
+
 In this problem, we’ll use weather data collected by the US Navy from Lake Pend Oreille in Northern Idaho. Lake Pend Oreille is  the fifth deepest freshwater lake in the United States. So deep, in fact, that the US Navy uses it to test submarines. 
-Google earth flyover. approx 12 seconds
-Sample movie
+
 As part of that testing, the US Navy compiles an exhaustive list of weather statistics. Wind speed, Air Temperature, Barometric Pressure. 
-You can browse this data by pointing your web browser at http://lpo.dt.navy.mil/. You’ll find several weather summaries, a web cam, and the raw data they collect every five minutes, archived as standard text files.
+You can browse this data by pointing your web browser at [http://lpo.dt.navy.mil/](). You’ll find several weather summaries, a web cam, and the raw data they collect every five minutes, archived as standard text files.
 screen capture
 
-http://lpo.dt.navy.mil/
 For anyone living or working on Lake Pend Oreille, weather statistics are an important part of everyday life. Average windspeed can be very different than median windspeed - especially if you are on a small boat in the middle of the lake.
-time lapse of weather web cam. 
 
-Sample shown here.
-
-Dan Weston will provide finished animation. The duration of this animation can be tailored to suit the length of narration.
 In this challenge, each of our authors will use their favorite language to calculate the mean and median of the wind speed, air temperature and barometric pressure recorded at the deep moor station for a given range of dates. 
-Graphic supplied by ldc graphics
 
-
-
-
-Wind speed
-Air temperature
-barometric pressure
-Mean
-
-
-
-
-
-
-Median
-
-
-
-
-
-
-
-
-
-
+| | Wind speed | Air temperature | barometric pressure |
+|----|-----|----|----|
+| Mean |
+| Median |
 
 
 First, let’s briefly review mean and median - these are both statistics. 
-keynote slide:
 
 mean
 median
