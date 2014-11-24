@@ -29,17 +29,11 @@ In this challenge, each of our authors will use their favorite language to calcu
 
 First, let’s briefly review mean and median - these are both statistics. 
 
-mean
-median
+To explain statistics, we need a set of numbers. How about fourteen readings for wind gust at Deep Moor weather station on January 1, 2014. You can see the data at [http://lpo.dt.navy.mil/data/DM/2014/2014_01_01/Wind_Gust]().
 
-
-To explain statistics, we need a set of numbers. How about fourteen readings for wind gust at Deep Moor weather station on January 1, 2014. You can see the data at this website
-screenshot of website at http://lpo.dt.navy.mil/data/DM/2014/2014_01_01/Wind_Gust.
 The first column is the day the wind gust was recorded, the second column is the time it was recorded, and the third column is the wind gust in miles per hour.
 
-
-screenshot of Highlighted text on webpage
-2014_01_01 00:21:24 14
+```2014_01_01 00:21:24 14
 2014_01_01 00:27:31 14
 2014_01_01 00:33:39 11
 2014_01_01 00:39:47 11
@@ -52,7 +46,7 @@ screenshot of Highlighted text on webpage
 2014_01_01 01:22:40 7
 2014_01_01 01:28:48 7
 2014_01_01 01:35:55 4
-2014_01_01 01:42:03 8
+2014_01_01 01:42:03 8```
 The Mean is also known as the average. 
 screen capture slides
 
