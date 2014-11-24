@@ -85,6 +85,7 @@ I would expect to receive the Mean and Median for windspeed, air temperature and
 | Median | 6.2 | 39.2 | 29.8 |
 
 The JSON data would look something like this:
+
     var jsonReturnData = {
          "windSpeed": [{"mean":6.61179039301,"median":6.2}],
          "airTemperature":[{"mean":38.969650655,"median":39.2}],
