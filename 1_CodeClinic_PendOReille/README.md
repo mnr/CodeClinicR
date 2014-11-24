@@ -1,7 +1,3 @@
-CodeClinicR
-===========
-
-A version of lynda.com code clinic for the R programming language
 
 Problem 1
 Statistical Analysis - Exploring Lake Pend Oreille
