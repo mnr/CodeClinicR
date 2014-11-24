@@ -33,117 +33,62 @@ To explain statistics, we need a set of numbers. How about fourteen readings for
 
 The first column is the day the wind gust was recorded, the second column is the time it was recorded, and the third column is the wind gust in miles per hour.
 
-```2014_01_01 00:21:24 14
-2014_01_01 00:27:31 14
-2014_01_01 00:33:39 11
-2014_01_01 00:39:47 11
-2014_01_01 00:45:54 11
-2014_01_01 00:52:02 11
-2014_01_01 00:58:09 11
-2014_01_01 01:04:17 3
-2014_01_01 01:10:25 7
-2014_01_01 01:16:32 7
-2014_01_01 01:22:40 7
-2014_01_01 01:28:48 7
-2014_01_01 01:35:55 4
-2014_01_01 01:42:03 8```
+    2014_01_01 00:21:24 14
+    2014_01_01 00:27:31 14
+    2014_01_01 00:33:39 11
+    2014_01_01 00:39:47 11
+    2014_01_01 00:45:54 11
+    2014_01_01 00:52:02 11
+    2014_01_01 00:58:09 11
+    2014_01_01 01:04:17 3
+    2014_01_01 01:10:25 7
+    2014_01_01 01:16:32 7
+    2014_01_01 01:22:40 7
+    2014_01_01 01:28:48 7
+    2014_01_01 01:35:55 4
+    2014_01_01 01:42:03 8
+
 The Mean is also known as the average. 
-screen capture slides
-
-Mean
-also called 
-Average
-
 
 To calculate the mean of a range of numbers, simply add the values in the set, then divide by the number of values.
-screen capture
 
-animate 
-
-Mean
-Add numbers
-divide by number of values
 In this example, we add 14+14+11+11+11+11+11+3+7+7+7+7+4+8, then divide the sum by 14 - the count of numbers in the set. In this case, the mean is equal to 9.
 
-
-screen capture
-
-animate math as discussed
 The Median is the number halfway between all the values in a sorted range of values. 
-screen capture
-
-Median
-The halfway number
-
 
 Think of the median as in the median strip of the road - it always marks the center of the road.
 
+To calculate the median, first sort the numbers from lowest to highest. 
 
-stock photo of road with median strip
- To calculate the median, first sort the numbers from lowest to highest. 
-animation
-
-sort a collection of numbers (odd number of values)
 If there is an odd number of values, then just take the middle number.
 animation
-arrow points out middle number
-If there is an even number of values, then calculate the average of the central two numbers.
-animation
-remove one value
-math showing calculation of average
-In this case, there is an even number of values, so we sort, then take the average of the middle two values: 8 and 11 . The median is 9.5
-animate example
-OPTIONAL SEGMENT: If the author chooses to implement a web service, include the following
 
+If there is an even number of values, then calculate the average of the central two numbers.
+
+In this case, there is an even number of values, so we sort, then take the average of the middle two values: 8 and 11 . The median is 9.5
 
 In addition, some authors have chosen to implement a web service, allowing other web sites to access the new weather statistics created by the author’s program.
 
 This is typically done by creating a “RESTful API” which, when called, returns information in a format known as JSON.
-slide
 
-Web service
-RESTful API
-JSON
 For a detailed description of JSON and it’s uses, please refer to “Effective Design of Restful APIs” by Keith Casey and “Javascript and JSON” by Ray Villalobos. 
-flyout with course names
+
 In our case, if I make this HTTP call…
 
-
-
-slide
-http://theauthorswebsite.com/pendoreilleWebService?startDate=20110319&endDate=20110320
-
+[http://theauthorswebsite.com/pendoreilleWebService?startDate=20110319&endDate=20110320]()
 
 I would expect to receive the Mean and Median for windspeed, air temperature and barometric pressure for the range of dates starting with March 19, 2011 and running until midnight of March 20, 2011. 
 
-
-
-Wind speed
-Air temperature
-barometric pressure
-Mean
-6.117
-38.96
-29.781
-Median
-6.2
-39.2
-29.8
-
-
+| | Wind speed | Air temperature | barometric pressure |
+|----|-----|----|----|
+| Mean | 6.117 | 38.96 | 29.781 |
+| Median | 6.2 | 39.2 | 29.8 |
 
 The JSON data would look something like this:
-var jsonReturnData = {
-     "windSpeed": [{"mean":6.61179039301,"median":6.2}],
-"airTemperature":[{"mean":38.969650655,"median":39.2}],
-"barometricPressure":[{"mean":29.781441048,"median":29.8}]
-}
-
-
-END OF OPTIONAL SEGMENT
-
+    var jsonReturnData = {
+         "windSpeed": [{"mean":6.61179039301,"median":6.2}],
+         "airTemperature":[{"mean":38.969650655,"median":39.2}],
+         "barometricPressure":[{"mean":29.781441048,"median":29.8}]
+    }
 
 So there’s our first challenge - pull statistics from a data set available on-line. Perhaps you want to pause and create a solution of your own. How would you solve the problem? In the next videos, I’ll show you how I solved the challenge.
-b-roll or boothcam if available
-
-
