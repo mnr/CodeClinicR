@@ -1,19 +1,20 @@
 GetPendOreille <- function(startDate,endDate) {
   # startDate and endDate are in the format YYYYMMDD
-  
+  # now with lubridate
+ 
   # check input for validity
-  the.start.date <- strptime(startDate,"%Y%m%d")
-  the.end.date <- strptime(endDate,"%Y%m%d")
+  the.start.date <- ymd(startDate)
+  the.end.date <- ymd(endDate)
   if (the.start.date > the.end.date) {
     # Error: the end date is earlier than the start date
     stop("Invalid input: start date is after end date")
   }
   
-  if (the.start.date < strptime("20010101","%Y%m%d")) {
+  if (the.start.date < ymd("20010101")) {
     # Error: Lake Pend Oreille didn't record any data prior to 2001
     stop("No Data available prior to 2001")
   }
-  if (the.end.date > as.POSIXlt(Sys.Date())) {
+  if (the.end.date > now()) {
     # Error: input is asking for data for tomorrow
     stop("End Date is later than today")
   }
@@ -32,10 +33,10 @@ GetPendOreille <- function(startDate,endDate) {
   # date.pointer keeps track of what dates have been read
   date.pointer <- the.start.date 
     
-  for (grab.this.year in (the.start.date$year +1900):(the.end.date$year +1900)) {
-    if (grab.this.year < 2011) {
+  while (date.pointer < the.end.date) {
+    if (year(date.pointer) < 2011) {
       # prior to 2011, data was stored in one file per year
-      file.to.read <- paste(kPORDeepMoorPath,"Environmental_Data_",grab.this.year,".txt",sep="")
+      file.to.read <- paste(kPORDeepMoorPath,"Environmental_Data_",year(date.pointer),".txt",sep="")
       # date,time,Wind_Speed,Air_Temp,Barometric_Press
       tmp.wd <- read.table(file.to.read,sep="\t",header=TRUE)
       
@@ -51,15 +52,13 @@ GetPendOreille <- function(startDate,endDate) {
       por.weather.data <- rbind(por.weather.data,tmp.wd)
       
       # increment date.pointer
-      date.pointer$year <- grab.this.year + 1
+      year(date.pointer) <- year(date.pointer) + 1
       
     } else {
       # after 2010, data is stored in separate files in a directory
 
       while (date.pointer <= the.end.date ) {
-        while (grab.this.day) {
-          
-        }
+        
       }
      # /2011/2011_01_02/Wind_Speed
      # file.to.read <- paste(kPORDeepMoorPath,grab.this.year,"/",grab.this.year,"_",,".txt",sep="")
