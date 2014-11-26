@@ -1,7 +1,11 @@
 GetPendOreille <- function(startDate,endDate) {
   # startDate and endDate are in the format YYYYMMDD
-  # now with lubridate
- 
+  # Uses lubridate package for assistance with dates
+  # lubridate documentation at http://cran.r-project.org/web/packages/lubridate/lubridate.pdf
+  
+  # requires this external function
+  if(!exists("GetPORDataFor",mode="function")) source("GetPORDataFor.R")
+  
   # check input for validity
   the.start.date <- ymd(startDate)
   the.end.date <- ymd(endDate)
@@ -10,8 +14,8 @@ GetPendOreille <- function(startDate,endDate) {
     stop("Invalid input: start date is after end date")
   }
   
-  if (the.start.date < ymd("20010101")) {
-    # Error: Lake Pend Oreille didn't record any data prior to 2001
+  if (the.start.date < ymd("20010112")) {
+    # Error: Lake Pend Oreille didn't record any data prior to 2001_01_12
     stop("No Data available prior to 2001")
   }
   if (the.end.date > now()) {
@@ -22,9 +26,9 @@ GetPendOreille <- function(startDate,endDate) {
   # Now I'm confident the input is usable.
   # Based on the input, I'm going to grab the data I need
   por.weather.data <- data.frame(theDateTime=as.numeric(),
-                               Wind_Speed=as.numeric(),
-                               Air_Temp=as.numeric(),
-                               Barometric_Press=as.numeric()
+                                 Wind_Speed=as.numeric(),
+                                 Air_Temp=as.numeric(),
+                                 Barometric_Press=as.numeric()
   )
   
   # raw data for deep moor is found at http://lpo.dt.navy.mil/data/DM/
@@ -32,9 +36,9 @@ GetPendOreille <- function(startDate,endDate) {
   
   # date.pointer keeps track of what dates have been read
   date.pointer <- the.start.date 
-    
-  while (date.pointer < the.end.date) {
-    if (year(date.pointer) < 2011) {
+  
+  while (date.pointer <= the.end.date) {
+    if (year(date.pointer) < 2010) {
       # prior to 2011, data was stored in one file per year
       file.to.read <- paste(kPORDeepMoorPath,"Environmental_Data_",year(date.pointer),".txt",sep="")
       # date,time,Wind_Speed,Air_Temp,Barometric_Press
@@ -42,8 +46,8 @@ GetPendOreille <- function(startDate,endDate) {
       
       # drop unneeded columns
       tmp.wd[c("Wind_Gust","Wind_Dir","Relative_Humidity",
-              "Water_Temp","Water_Temp_50","Water_Temp_100",
-              "Water_Temp_200","Water_Temp_400")] <- list(NULL)
+               "Water_Temp","Water_Temp_50","Water_Temp_100",
+               "Water_Temp_200","Water_Temp_400")] <- list(NULL)
       
       # clean up date time column
       colnames(tmp.wd)[1] <- "theDateTime" 
@@ -51,25 +55,56 @@ GetPendOreille <- function(startDate,endDate) {
       # merge the two data.frames
       por.weather.data <- rbind(por.weather.data,tmp.wd)
       
-      # increment date.pointer
-      year(date.pointer) <- year(date.pointer) + 1
-      
     } else {
-      # after 2010, data is stored in separate files in a directory
-
-      while (date.pointer <= the.end.date ) {
-        
-      }
-     # /2011/2011_01_02/Wind_Speed
-     # file.to.read <- paste(kPORDeepMoorPath,grab.this.year,"/",grab.this.year,"_",,".txt",sep="")
+      # after and including 2010, data is stored in separate files in a directory
       
+      # get the three data tables and combine into creating.weather.df
+      get.these.weathers <- c("Wind_Speed","Air_Temp","Barometric_Press")
+      
+      for(aWeather in get.these.weathers) {
+        temp.weather.data <- GetPORDataFor(aWeather,date.pointer)
+        temp.weather.data <- data.frame(paste(temp.weather.data$V1,temp.weather.data$V2),
+                                        temp.weather.data$V3)
+        colnames(temp.weather.data) <- c("theDateTime",aWeather)
+        
+        if(!exists("creating.weather.df")) {
+          creating.weather.df <- temp.weather.data
+        } else {
+          creating.weather.df <- merge(creating.weather.df,temp.weather.data,by="theDateTime")
+        }
+      }
+      
+      # append creating.weather.df to por.weather.data 
+      por.weather.data <- rbind(por.weather.data,creating.weather.df)
+      
+      # clear creating.weather.df
+      rm(creating.weather.df)      
     }
+    
+    # increment date.pointer
+    # if the.end.date < 2009 then it is ok to increment by a year
+    # else, increment by a day
+
+    if (year(the.end.date) < 2009) {
+      year(date.pointer) <- year(date.pointer) + 1
+    } else {
+      # set the date pointer to do the next day
+      date.pointer <- date.pointer + days(1)
+    }
+    
   }
   
+  # in some cases there will be unwanted data rows at top and/or bottom. 
+  # Need to trim them out
+  por.weather.data <- por.weather.data[as.POSIXlt(ymd_hms(por.weather.data$theDateTime)) >= the.start.date,]
+  por.weather.data <- por.weather.data[as.POSIXlt(ymd_hms(por.weather.data$theDateTime)) <= the.end.date,]
   
-  # return
   # calculate the mean and median of the 
   # wind speed, air temperature and barometric pressure 
   # recorded at the deep moor station 
   # for a given range of dates
+  # summary(por.weather.data)
+  Mean <- sapply(por.weather.data[2:4], mean, na.rm = TRUE)
+  Median <- sapply(por.weather.data[2:4], median, na.rm = TRUE)
+  rbind(Mean,Median)
 }

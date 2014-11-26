@@ -1,12 +1,12 @@
 {
-    "contents" : "# set up\ninstall.packages(\"lubridate\")\nlibrary(lubridate)\n\n# Unit tests for GetPendOreille\n\nsource(\"GetPendOreille.R\")\n\nGetPendOreille(\"20110503\",\"20100503\")\n#Error in GetPendOreille(\"20110503\", \"20100503\") : \n#  Invalid input: start date is after end date\n\nGetPendOreille(\"20100503\",\"20110503\")\n\nGetPendOreille(\"20020723\",\"20041015\")\n\n",
+    "contents" : "# set up\ninstall.packages(\"lubridate\")\nlibrary(lubridate)\n\n# Unit tests for GetPendOreille\n\nsource(\"GetPendOreille.R\")\nsource(\"GetPORDataFor.R\")\n\nGetPendOreille(\"20110503\",\"20100503\")\n#Error in GetPendOreille(\"20110503\", \"20100503\") : \n#  Invalid input: start date is after end date\n\nGetPendOreille(\"20100503\",\"20110503\")\n\nGetPendOreille(\"20020723\",\"20041015\") # import old format data\nGetPendOreille(\"20120723\",\"20120724\") # import new format data\nGetPendOreille(\"20101230\",\"20110102\") # import a mix of old and new format data\n\n\n",
     "created" : 1416811050298.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3943974727",
+    "hash" : "690579612",
     "id" : "1CE465C3",
-    "lastKnownWriteTime" : 1416869831,
+    "lastKnownWriteTime" : 1416959935,
     "path" : "~/git/CodeClinicR/1_CodeClinic_PendOReille/unit tests for get pend oreille.R",
     "project_path" : "unit tests for get pend oreille.R",
     "properties" : {
