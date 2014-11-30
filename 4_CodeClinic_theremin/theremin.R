@@ -12,7 +12,7 @@ handleMouse <- function(x,y) {
   
   volm.string <- paste("[[volm ", theVolume, "]]",sep="")
   pbas.string <- paste("[[pbas ", thePitch, "]]",sep="")
-  all.string <- paste("say ",volm.string, pbas.string, "bah")
+  all.string <- paste("say -v Good",volm.string, pbas.string, "o")
   print(all.string)
   system(all.string)
 }
