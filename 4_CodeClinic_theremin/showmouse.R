@@ -2,20 +2,18 @@
 # requires developer tools from Xcode
 # macintosh requires http://xquartz.macosforge.org/landing/
 # tutorial at http://www.sciviews.org/_rgui/tcltk/
+# http://www.r-project.org/conferences/DSC-2001/Proceedings/Dalgaard.pdf
 
-require(tcltk)      # Load the tcltk package
+require(tcltk)
 
-tt <- tktoplevel()  # Create a new toplevel window
+handleMouse <- function(x,y) {
+  print(c(x,y))
+}
 
-# Create a button whose function (command) is to destroy the window
-OK.but <- tkbutton(tt, text = "OK", command = function() tkdestroy(tt))
-
-# Place the button on the window, using the grid manager
-tkgrid(OK.but)
-
-# Now, bring the window to the focus, using tkfocus.  (This will not work
-# if the code is run from Rgui, because the focus will automatically
-# return to Rgui, but it will work if the code is copied and pasted into
-# a script file and run using
-# Rterm < scriptfile.R > scriptfile.Rout
+tt<-tktoplevel()
+tkbind(tt,"<B1-Motion>", handleMouse )
 tkfocus(tt)
+
+
+
+
