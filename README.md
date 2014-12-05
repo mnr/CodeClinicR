@@ -24,4 +24,4 @@ As the content Manager for the Developer Segment at lynda.com, I curated the ser
 *    Ruby
 *    and now - R
 
-See all of these courses at [http://www.lynda.com/SharedPlaylist/3bd14e75f0014f05a34c169289d7a29a](lynda.com)
+See all of these courses at [lynda.com](http://www.lynda.com/SharedPlaylist/3bd14e75f0014f05a34c169289d7a29a)
