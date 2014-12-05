@@ -1,6 +1,5 @@
 # CodeClinicR
 ===========
-
 A version of lynda.com code clinic for the R programming language.
 
 Successful programmers know more than just a computer language–they also know how to think about solving problems by breaking a problem down into segments that lend themselves to technical solutions. Code Clinic is a series of courses where lynda.com authors solve the same problems, using different programming languages.
