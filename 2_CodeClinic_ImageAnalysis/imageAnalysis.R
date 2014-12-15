@@ -2,7 +2,13 @@
 install.packages("ripa")
 library(ripa)
 
+<<<<<<< HEAD
 # EBImage
+=======
+# try grepraw
+
+
+>>>>>>> c2670a1cf46d4e3816d27d16dab20663a8fa8f81
 source("http://bioconductor.org/biocLite.R")
 biocLite("EBImage")
 browseVignettes("EBImage")
