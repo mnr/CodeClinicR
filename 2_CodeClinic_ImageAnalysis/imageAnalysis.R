@@ -2,7 +2,7 @@
 install.packages("ripa")
 library(ripa)
 
-
+# EBImage
 source("http://bioconductor.org/biocLite.R")
 biocLite("EBImage")
 browseVignettes("EBImage")
@@ -10,13 +10,22 @@ library("EBImage")
 f = system.file("images", "sample.png", package="EBImage")
 img = readImage(f)
 
-install("jpeg")
-img <- readJPEG(system.file("img", "Rlogo.jpg", package="jpeg"))
-#match()
+# grep, grepRaw, grepl
+install.packages("jpeg")
+library(jpeg)
+img.one <- readJPEG("2_CodeClinic_imageAnalysis/imagesToAnalyze/460249177.jpg")
+img.one.subset <- readJPEG("2_CodeClinic_imageAnalysis/imagesToAnalyze/460249177a.jpg")
+grepl(img.one.subset[,,1], img.one[,,1], useBytes=TRUE)
+grepRaw(as.vector(img.one.subset[,,1]), as.vector(img.one[,,1]), value=FALSE)
+                
+# Warning message:
+# In grepl(img.one.subset[, , 1], img.one[, , 1], useBytes = TRUE) :
+#  argument 'pattern' has length > 1 and only the first element will be used
 
-if (exists("rasterImage")) { # can plot only in R 2.11.0 and higher
-  plot(2:2, type='n')
-  rasterImage(img, 1.2, 1.27, 1.8, 1.73)
-  #rasterImage(img.n, 1.5, 1.5, 1.9, 1.8)
-}
+# package Raster
+#http://cran.r-project.org/web/packages/raster/index.html
+
+# package rimage
+install.packages("rimage")
+# Warning in install.packages : package ‘rimage’ is not available (for R version 3.1.2)
 
