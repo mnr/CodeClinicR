@@ -1,6 +1,9 @@
+# research on R image manipulation packages
+
 # http://cran.r-project.org/web/packages/ripa/index.html
 install.packages("ripa")
 library(ripa)
+# doesn't appear to provide access to a subset of a matrix. Documentation unclear how to use jpeg
 
 # # # # # #
 # EBImage
@@ -12,6 +15,7 @@ library("EBImage")
 # Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
 # there is no package called ‘tiff’
 # Error: package or namespace load failed for ‘EBImage’
+# ubuntu solution at http://mytechscribblings.wordpress.com/2013/06/28/installing-ebimage-package-for-r-using-rstudio-in-ubuntu/
 browseVignettes("EBImage")
 f = system.file("images", "sample.png", package="EBImage")
 img = readImage(f)
@@ -32,9 +36,10 @@ grepRaw(as.vector(img.one.subset[,,1]), as.vector(img.one[,,1]), value=FALSE)
 # # # # # #
 # package Raster
 #http://cran.r-project.org/web/packages/raster/index.html
+install.packages("raster")
+library(raster)
 
 # # # # # #
 # package rimage
 install.packages("rimage")
 # Warning in install.packages : package ‘rimage’ is not available (for R version 3.1.2)
-
