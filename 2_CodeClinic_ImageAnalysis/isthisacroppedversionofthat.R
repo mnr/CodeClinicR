@@ -4,5 +4,10 @@
 # returns TRUE or FALSE
 
 isthisacroppedversionofthat <- function(needle,haystack) {
+  # print(paste("needle:",needle," haystack:",haystack))
+  needle.raster <- readJPEG(needle)
+  haystack.raster <- readJPEG(haystack)
+  str(needle.raster)
+  str(haystack.raster)
   
 }
