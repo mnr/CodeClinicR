@@ -12,6 +12,7 @@ image.pairs <- expand.grid(list.of.images,list.of.images)
 funcWrapper <- function(anImagePair) {
   needle <- paste("imagesToAnalyze/",anImagePair[1],sep="")
   haystack <- paste("imagesToAnalyze/",anImagePair[2],sep="")
-  isthisacroppedversionofthat(needle,haystack)
+  is.it.a.match <- isthisacroppedversionofthat(needle,haystack)
+  print(paste(anImagePair[1],ifelse(is.it.a.match,"is","is not"),"a subset of",anImagePair[2]))
 }
 apply(image.pairs,1,funcWrapper)
