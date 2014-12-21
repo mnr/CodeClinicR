@@ -4,10 +4,29 @@
 # returns TRUE or FALSE
 
 isthisacroppedversionofthat <- function(needle,haystack) {
-  # print(paste("needle:",needle," haystack:",haystack))
+  # assumes needle and haystack are jpeg images
   needle.raster <- readJPEG(needle)
   haystack.raster <- readJPEG(haystack)
-  str(needle.raster)
-  str(haystack.raster)
+ 
+  # if needle is larger than or same size as haystack, 
+  # then needle can't be a cropped version.
+  if ((nrow(needle.raster) >= nrow(haystack.raster)) 
+      && (ncol(needle.raster) >= ncol(haystack.raster))) { return(FALSE)}
   
+  # find the first byte of needle in haystack
+  points.of.interest <- which(haystack.raster == needle.raster[1])
+  # if there are no instances of the first byte of needle in haystack, 
+  # then this can't be a cropped version
+  if (length(points.of.interest) == 0) {return(FALSE)}
+  
+  # find dim (aka:row-column-layer) of index points in points.of.interest
+  location.of.POIs <- arrayInd(points.of.interest,dim(haystack.raster))
+  
+  # remove points.of.interest that are not wide enough
+  points.of.interest <- points.of.interest[location.of.POIs[,2] < ncol(needle.raster)]
+  
+  # remove points.of.interest that are not tall enough
+  points.of.interest <- points.of.interest[location.of.POIs[,1] < nrow(needle.raster)] 
+  
+  return(TRUE)
 }
