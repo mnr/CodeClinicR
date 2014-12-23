@@ -1,5 +1,8 @@
 # research on R image manipulation packages
 
+# Helpful article by Adrian Rosebrock from pyimagesearch.com
+# https://realpython.com/blog/python/fingerprinting-images-for-near-duplicate-detection/
+
 # http://cran.r-project.org/web/packages/ripa/index.html
 install.packages("ripa")
 library(ripa)
