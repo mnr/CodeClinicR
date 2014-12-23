@@ -28,5 +28,12 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   # remove points.of.interest that are not tall enough to hold the sub image
   points.of.interest <- points.of.interest[location.of.POIs[,1] < nrow(needle.raster)] 
   
+  if (length(points.of.interest) == 0) {return(FALSE)}
+  
+  # now points.of.interest are interesting. But are they subsets?
+  # Compare the first row of needle against the rows associated with points.of.interest
+  
+  #needle.first.row.hash <- 
+  
   return(TRUE)
 }
