@@ -2,6 +2,8 @@
 
 install.packages("jpeg")
 library(jpeg)
+install.packages("digest")
+library(digest)
 
 setwd("2_CodeClinic_ImageAnalysis")
 source("isthisacroppedversionofthat.R")
