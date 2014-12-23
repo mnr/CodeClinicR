@@ -22,10 +22,10 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   # find dim (aka:row-column-layer) of index points in points.of.interest
   location.of.POIs <- arrayInd(points.of.interest,dim(haystack.raster))
   
-  # remove points.of.interest that are not wide enough
+  # remove points.of.interest that are not wide enough to hold the sub image
   points.of.interest <- points.of.interest[location.of.POIs[,2] < ncol(needle.raster)]
   
-  # remove points.of.interest that are not tall enough
+  # remove points.of.interest that are not tall enough to hold the sub image
   points.of.interest <- points.of.interest[location.of.POIs[,1] < nrow(needle.raster)] 
   
   return(TRUE)
