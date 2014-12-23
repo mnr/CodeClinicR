@@ -23,14 +23,7 @@ It would be extremely handy if there was a program searching the internet for cr
 
 Here’s the challenge; given two images, determine if one image is a subset of the other image. 
 
-Then, show two images side by side, one image moves over another to show it is NOT a crop
-
 We’ll assume they are both jpeg files, that the resolution is the same as well as the bit depth. 
-
-We’ve provided a set of images - the program should return a table showing which images are cropped versions of other images. 
-
-Perhaps you want to pause and create a solution of your own. How would you solve the problem? In the next videos, I’ll show you how I solved this challenge.
-
 
 
 
