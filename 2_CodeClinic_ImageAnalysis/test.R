@@ -18,3 +18,9 @@ funcWrapper <- function(anImagePair) {
   print(paste(anImagePair[1],ifelse(is.it.a.match,"is","is not"),"a subset of",anImagePair[2]))
 }
 apply(image.pairs,1,funcWrapper)
+
+# test known subsets
+funcWrapper(c("460249177a.jpg","460249177.jpg")) #this is a subset
+funcWrapper(c("478946583a.jpg","478946583.jpg")) #this is a subset
+funcWrapper(c("78771293a.jpg","78771293.jpg")) #this is a subset
+funcWrapper(c("103992931.jpg","78771293.jpg")) #this is not a subset
