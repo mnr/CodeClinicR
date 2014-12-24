@@ -104,7 +104,11 @@ GetPendOreille <- function(startDate,endDate) {
   # recorded at the deep moor station 
   # for a given range of dates
   # summary(por.weather.data)
-  Mean <- sapply(por.weather.data[2:4], mean, na.rm = TRUE)
+  
+  browser()
+  # Mean <- sapply(por.weather.data[2:4], mean, na.rm = TRUE)
+  # colMeans is the same as above, but faster 
+  Mean <- colMeans(por.weather.data[2:4], na.rm=TRUE)
   Median <- sapply(por.weather.data[2:4], median, na.rm = TRUE)
   rbind(Mean,Median)
 }
