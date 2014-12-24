@@ -32,8 +32,9 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   
   # now points.of.interest are interesting. But are they subsets?
   # Compare the first row of needle against the rows associated with points.of.interest
+  needle.first.row.hash <- digest(needle.raster,algo="murmur32",length=ncol(needle.raster),seed=1)
   
-  #needle.first.row.hash <- 
+  #sapply? apply? tapply?
   
   return(TRUE)
 }
