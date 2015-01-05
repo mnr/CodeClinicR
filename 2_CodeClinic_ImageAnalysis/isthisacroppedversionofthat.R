@@ -13,13 +13,20 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   # if needle is larger than or same size as haystack, 
   # then needle can't be a cropped version.
   if ((needle.height >= nrow(haystack.raster)) 
-      && (needle.width >= ncol(haystack.raster))) {return(FALSE) }
+      && (needle.width >= ncol(haystack.raster))) return(c(0,0)) 
   
   # find the first byte of needle in haystack
   points.of.interest <- which(haystack.raster == needle.raster[1])
   # if there are no instances of the first byte of needle in haystack, 
   # then this can't be a cropped version
-  if (length(points.of.interest) == 0) {return(FALSE)}
+  if (length(points.of.interest) == 0) return(c(0,0))
+  
+  # quick and dirty matching to filter down possible matches
+  for (loopIndex in 1:2) {
+    next.point.of.interest <- which(haystack.raster[points.of.interest + loopIndex] == needle.raster[loopIndex + 1])
+    points.of.interest <- points.of.interest[next.point.of.interest]
+    if (length(points.of.interest) == 0) return(c(0,0))
+  }
   
   # find dim (aka:row-column-layer) of index points in points.of.interest
   location.of.POIs <- arrayInd(points.of.interest,dim(haystack.raster))
@@ -31,24 +38,30 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   points.of.interest <- points.of.interest[location.of.POIs[,1] < needle.height] 
   points.of.interest <- na.omit(points.of.interest) #I may be subsetting incorrectly, so use this to remove NA
   
-  if (length(points.of.interest) == 0) {return(FALSE)}
+  if (length(points.of.interest) == 0) return(c(0,0))
   
   # now points.of.interest are interesting. But are they subsets?
   # Compare the first row of needle against the rows associated with points.of.interest
-  # first - hash the first row of needle
-  needle.first.row.hash <- digest(needle.raster,algo="murmur32", length=needle.width, seed=1)
-  
-  # then hash the row following points of interest and compare results
+  # first - subset the first row and Red layer of needle to speed things up
+  needle.first.row <- needle.raster[1,,1]
+    
+  # then correlate with the row following points of interest
+  loopCount <- 1
+  loopLength <- length(points.of.interest)
   for (a.point.of.interest in points.of.interest) {
-    haystack.first.row.hash <- digest(haystack.raster[a.point.of.interest:(a.point.of.interest+needle.width-1)],algo="murmur32",seed=1)
-        
-    if (haystack.first.row.hash == needle.first.row.hash) {
+   # print(paste("analyzing ",a.point.of.interest," loop",loopCount,"of",loopLength))
+    loopCount <- loopCount + 1
+    row.end <- a.point.of.interest+needle.width
+    correlated.images <- ccf(haystack.raster[a.point.of.interest:row.end],needle.first.row)
+
+    if (any(correlated.images$acf > .7)) {
 
       # it's a hit. check for the remaining values
-      needle.hash <- digest(needle.raster,algo="murmur32",seed=1)
+      return(c(max(correlated.images$acf),a.point.of.interest))
       # build an image brick of size needle, using data from haystack
-      haystack.hash <- digest(haystack.raster[a.point.of.interest:needle.width,a.point.of.interest:needle.height,], algo="murmur32", seed=1)
-      if (haystack.all.hash == needle.all.hash) return (TRUE)
+      
+    } else {
+      #print(paste("max correlated is",max(correlated.images$acf)))
     }
   }
 

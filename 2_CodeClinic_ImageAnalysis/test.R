@@ -2,8 +2,6 @@
 
 install.packages("jpeg")
 library(jpeg)
-install.packages("digest")
-library(digest)
 
 setwd("2_CodeClinic_ImageAnalysis")
 source("isthisacroppedversionofthat.R")
@@ -15,7 +13,11 @@ funcWrapper <- function(anImagePair) {
   needle <- paste("imagesToAnalyze/",anImagePair[1],sep="")
   haystack <- paste("imagesToAnalyze/",anImagePair[2],sep="")
   is.it.a.match <- isthisacroppedversionofthat(needle,haystack)
-  print(paste(anImagePair[1],ifelse(is.it.a.match,"is","is not"),"a subset of",anImagePair[2]))
+  if (is.it.a.match[1] > 0) {
+    print(paste(anImagePair[1],"is a subset of",anImagePair[2],"with correlation of",is.it.a.match[1],"and at point",is.it.a.match[2]))
+  } else {
+    print(paste(anImagePair[1],"is not a subset of",anImagePair[2]))
+  }
 }
 apply(image.pairs,1,funcWrapper)
 
