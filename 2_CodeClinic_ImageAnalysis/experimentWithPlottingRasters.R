@@ -13,3 +13,4 @@ plot(c(100, ptj.width), c(100, ptj.height), type = "n")
 rasterImage(plotThisJpeg, 100, 100, ptj.width, ptj.height)
 
 rasterImage(plotThisClip, 500, 500, ptjc.width, ptjc.height)
+
