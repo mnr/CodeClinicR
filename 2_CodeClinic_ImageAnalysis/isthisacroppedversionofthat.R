@@ -14,35 +14,35 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   # then needle can't be a cropped version.
   if ((needle.height >= nrow(haystack.raster)) 
       && (needle.width >= ncol(haystack.raster))) return(c(0,0)) 
-  
-  points.of.interest <- ncol(haystack.raster) * nrow(haystack.raster) # number of pixels in one layer
-  wide.enough <- which(arrayInd(points.of.interest,dim(haystack.raster))[,2] < needle.width)
-  tall.enough <- which(arrayInd(wide.enough,dim(haystack.raster))[,1] < needle.height)
-
-  
     
+  # points.of.interest is an array of x,y coordinates that are possible starting points for a subset image
+  red.layer <- 1 # We're only interested in one layer
+  poi.rows <- nrow(haystack.raster) - needle.height # only POIs that allow full height of needle
+  poi.columns <- ncol(haystack.raster) - needle.width # only POIs that allow full width of needle
+  points.of.interest <- haystack.raster[1:poi.rows,1:poi.columns,red.layer] 
+      
   # now points.of.interest are interesting. But are they subsets?
-  # Compare the first row of needle against the rows associated with points.of.interest
-  # first - subset the first row and Red layer of needle to speed things up
-  needle.first.row <- needle.raster[1,,1]
-    
-  # then correlate with the row following points of interest
-  loopCount <- 1
-  loopLength <- length(points.of.interest)
-  for (a.point.of.interest in points.of.interest) {
-   # print(paste("analyzing ",a.point.of.interest," loop",loopCount,"of",loopLength))
-    loopCount <- loopCount + 1
-    row.end <- a.point.of.interest+needle.width
-    correlated.images <- ccf(haystack.raster[a.point.of.interest:row.end],needle.first.row)
+  # Compare a brick from needle against points.of.interest in haystack
+  # first - subset an image brick from the Red layer of needle
+  needle.quarter.width <- ncol(needle.raster) / 4
+  needle.quarter.height <- nrow(needle.raster) / 4
+  needle.brick <- needle.raster[1:needle.quarter.height,1:needle.quarter.width,1]
 
-    if (any(correlated.images$acf > .7)) {
+  # then correlate with the row following points of interest
+  for (aPOI in 1:length(points.of.interest)) {
+    locn <- arrayInd(aPOI,dim(points.of.interest))
+    aPOI.height <- locn[1] + needle.quarter.height 
+    aPOI.width <- locn[2] + needle.quarter.width
+    haystack.brick <- haystack.raster[locn[1]:aPOI.height,locn[2]:aPOI.width,red.layer]  
+    correlation.result <- ccf(as.vector(haystack.brick),as.vector(needle.brick),lag.max=5)
+  
+    if (any(correlation.result$acf > .7)) {
 
       # it's a hit. check for the remaining values
-      return(c(max(correlated.images$acf),a.point.of.interest))
-      # build an image brick of size needle, using data from haystack
+      return(c(max(correlation.result$acf),aPOI))
       
     } else {
-      #print(paste("max correlated is",max(correlated.images$acf)))
+      #print(paste("max correlated is",max(correlation.result$acf)," Row:",locn[1],"Col:",locn[2]))
     }
   }
 
