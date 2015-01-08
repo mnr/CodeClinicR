@@ -22,28 +22,32 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   points.of.interest <- haystack.raster[1:poi.rows,1:poi.columns,red.layer] 
       
   # now points.of.interest are interesting. But are they subsets?
+  
   # Compare a brick from needle against points.of.interest in haystack
   # first - subset an image brick from the Red layer of needle
-  needle.quarter.width <- ncol(needle.raster) / 4
-  needle.quarter.height <- nrow(needle.raster) / 4
-  needle.brick <- needle.raster[1:needle.quarter.height,1:needle.quarter.width,1]
+  #needle.quarter.width <- ncol(needle.raster) / 4
+  #needle.quarter.height <- nrow(needle.raster) / 4
+  #needle.brick <- needle.raster[1:needle.quarter.height,1:needle.quarter.width,1]
 
-  # then correlate with the row following points of interest
-  for (aPOI in 1:length(points.of.interest)) {
+  # correlate needle to haystack at the points of interest
+  stepDistance <- needle.width
+  for (aPOI in seq(from=1,to=length(points.of.interest),by=stepDistance)) {
     locn <- arrayInd(aPOI,dim(points.of.interest))
-    aPOI.height <- locn[1] + needle.quarter.height 
-    aPOI.width <- locn[2] + needle.quarter.width
-    haystack.brick <- haystack.raster[locn[1]:aPOI.height,locn[2]:aPOI.width,red.layer]  
-    correlation.result <- ccf(as.vector(haystack.brick),as.vector(needle.brick),lag.max=5)
-  
-    if (any(correlation.result$acf > .7)) {
+    aPOI.height <- locn[1] + needle.height 
+    aPOI.width <- locn[2] + needle.width
+    haystack.brick <- haystack.raster[locn[1]:aPOI.height,locn[2]:aPOI.width,red.layer] 
+    plotTitle <- paste("Point",aPOI,date())
+    correlation.result <- ccf(as.vector(haystack.brick),as.vector(needle.raster),lag.max=(stepDistance/2),main=plotTitle,ylim=c(-1,1))
+    dev.copy(png,paste("needle_raster_",aPOI,".png",sep=""))
+    dev.off()
+    #if (any(correlation.result$acf > .7)) {
 
       # it's a hit. check for the remaining values
-      return(c(max(correlation.result$acf),aPOI))
+      #return(c(max(correlation.result$acf),aPOI))
       
-    } else {
-      #print(paste("max correlated is",max(correlation.result$acf)," Row:",locn[1],"Col:",locn[2]))
-    }
+   # } else {
+     # print(paste("max correlated is",max(correlation.result$acf)," Row:",locn[1],"Col:",locn[2]))
+   # }
   }
 
   return(FALSE)
