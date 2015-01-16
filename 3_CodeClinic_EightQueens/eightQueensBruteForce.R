@@ -43,6 +43,18 @@ for (queenIsInRow in 1:8) {
   }
 }
 
+# plot the results
+for (queenPlot in 1:nrow(clean.diag)) {
+  theTitle <- ""
+  for (index in 1:8) theTitle <- paste(theTitle,clean.diag[queenPlot,index],sep="     ")
+  plot(1:8,as.matrix(clean.diag[queenPlot,]),
+       main=theTitle,
+       xlab="Columns",ylab="Rows",
+       lwd=3,pch=11)
+  abline(h=1:8,v=1:8,lheight=100)
+  Sys.sleep(5)
+}
+
 
 
 
