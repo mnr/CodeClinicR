@@ -5,8 +5,25 @@
 clean.columns <- expand.grid(1:8,1:8,1:8,1:8,1:8,1:8,1:8,1:8) # 16777216 obs
 
 # wipe out two or more queens in one row
-sum.of.one.to.eight <- sum(1:8)
+new.countUnique <- function(x) {
+  #       user   system  elapsed 
+  #   6782.063 1665.710 8607.517 
+  # and...this line only printed at the beginning of execution
+  cat('\r',index,"rows examined of",number.of.rows,"total. ",(index/number.of.rows)*100," percent finished          ")
+  index <- index + 1
+  
+  return(ifelse(nlevels(factor(as.numeric(x))) == 8,TRUE,FALSE))
+}
+
 countUnique <- function(x) {
+  #    user  system elapsed 
+  # 212.989  14.886 235.417 
+  
+  return(ifelse(nlevels(factor(as.numeric(x))) == 8,TRUE,FALSE))
+}
+
+sum.of.one.to.eight <- sum(1:8)
+old2.countUnique <- function(x) {
   #    user  system elapsed 
   # 195.558  17.218 235.582
   if (sum(x) != sum.of.one.to.eight) { 
@@ -20,7 +37,24 @@ old.countUnique <- function(x) {
   # 1035.575   64.781 1209.968 
   ifelse(length(unique(as.list(x))) == 8,TRUE,FALSE)
 }
+
+number.of.rows <- nrow(clean.columns)
+index <- 0
+
+# This next step is intensive, so I am going to display a progress bar
+#pb <- txtProgressBar(min = 0, max = nrow(clean.columns), style = 2)
+# start the process
 system.time(clean.columns.and.rows <- clean.columns[apply(clean.columns,1,countUnique),])
+
+# the above one-liner broken out into a for loop
+# list.of.clean.columns.and.rows <- for (index in 1:number.of.rows) {
+#   #setTxtProgressBar(pb, index)  
+#   cat('\r',index,"rows examined of",number.of.rows,"total. ",(index/number.of.rows)*100," percent finished          ")
+#   ifelse(nlevels(factor(as.numeric(clean.columns[index,]))) == 8,TRUE,FALSE)
+# }
+# clean.columns.and.rows <- clean.columns[list.of.clean.columns.and.rows,]
+
+close(pb)
 # down to 40320 obs
 
 clean.diag <- clean.columns.and.rows
