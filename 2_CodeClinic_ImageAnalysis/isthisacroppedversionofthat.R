@@ -11,18 +11,29 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   haystack.raster <- readJPEG(haystack)
   haystack.width <- ncol(haystack.raster)
   haystack.height <- nrow(haystack.raster)
- 
+  red.layer <- 1 # We're only interested in one layer
+ browser()
   # if needle is larger than or same size as haystack, 
   # then needle can't be a cropped version.
   if ((needle.height >= haystack.height) 
       && (needle.width >= haystack.width)) return(c(0,0)) 
     
-  # points.of.interest is an array of x,y coordinates that are possible starting points for a subset image
-  red.layer <- 1 # We're only interested in one layer
-  poi.rows <- haystack.height - needle.height # only POIs that allow full height of needle
-  poi.columns <- haystack.width - needle.width # only POIs that allow full width of needle
-  points.of.interest <- haystack.raster[1:poi.rows,1:poi.columns,red.layer] 
-      
+  # points.of.interest is an array of x,y coordinates that are possible 
+  # starting points for a subset image
+  # remember that we are talking about rows and columns of the IMAGE...
+  # ...NOT the graph. Images start with 0,0 at upper left.
+  # Graphs start with 0,0 in lower left
+  diff.haystack.needle.height <- haystack.height-needle.height
+  poi.rows <- (diff.haystack.needle.height):(needle.height+diff.haystack.needle.height)
+ 
+  diff.haystack.needle.width <- haystack.width-needle.width
+  poi.columns <- (diff.haystack.needle.width):(needle.width+diff.haystack.needle.width)
+    
+  #poi.rows <- haystack.height - needle.height # only POIs that allow full height of needle
+  #poi.columns <- haystack.width - needle.width # only POIs that allow full width of needle
+  #points.of.interest <- haystack.raster[1:poi.rows,1:poi.columns,red.layer] 
+  points.of.interest <- haystack.raster[poi.rows,poi.columns] 
+    
   # now points.of.interest are interesting. But are they subsets?
   
   # Compare a brick from needle against points.of.interest in haystack
