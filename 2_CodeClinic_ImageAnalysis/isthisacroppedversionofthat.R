@@ -4,6 +4,10 @@
 # returns TRUE or FALSE
 
 isthisacroppedversionofthat <- function(needle,haystack) {
+  
+  #   needle <- paste("imagesToAnalyze/","460249177a.jpg",sep="")
+  #   haystack <- paste("imagesToAnalyze/","460249177.jpg",sep="")
+  
   # assumes needle and haystack are jpeg images
   needle.raster <- readJPEG(needle)
   needle.width <- ncol(needle.raster) # width and height are used a lot
@@ -12,70 +16,103 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   haystack.width <- ncol(haystack.raster)
   haystack.height <- nrow(haystack.raster)
   red.layer <- 1 # We're only interested in one layer
- browser()
+  
   # if needle is larger than or same size as haystack, 
   # then needle can't be a cropped version.
   if ((needle.height >= haystack.height) 
       && (needle.width >= haystack.width)) return(c(0,0)) 
-    
+  
+  # I'm going to assume that a match in one (of RGB) layers between
+  # needle and haystack is a match between all layers. This reduces the 
+  # amount of data we need to correlate by 2/3
+  # This requires versions of needle and haystack with just one layer
+  needle.red <- needle.raster[,,red.layer]
+  haystack.red <- haystack.raster[,,red.layer]
+  
   # points.of.interest is an array of x,y coordinates that are possible 
-  # starting points for a subset image
+  # starting points for a subset image. Any points outside of this range
+  # are either too narrow or too shallow to fit needle.
   # remember that we are talking about rows and columns of the IMAGE...
   # ...NOT the graph. Images start with 0,0 at upper left.
   # Graphs start with 0,0 in lower left
   diff.haystack.needle.height <- haystack.height-needle.height
-  poi.rows <- (diff.haystack.needle.height):(needle.height+diff.haystack.needle.height)
- 
-  diff.haystack.needle.width <- haystack.width-needle.width
-  poi.columns <- (diff.haystack.needle.width):(needle.width+diff.haystack.needle.width)
-    
-  #poi.rows <- haystack.height - needle.height # only POIs that allow full height of needle
-  #poi.columns <- haystack.width - needle.width # only POIs that allow full width of needle
-  #points.of.interest <- haystack.raster[1:poi.rows,1:poi.columns,red.layer] 
-  points.of.interest <- haystack.raster[poi.rows,poi.columns] 
-    
-  # now points.of.interest are interesting. But are they subsets?
+  poi.rows <- (1:diff.haystack.needle.height)
   
-  # Compare a brick from needle against points.of.interest in haystack
-  # first - subset an image brick from the Red layer of needle
-  #needle.quarter.width <- ncol(needle.raster) / 4
-  #needle.quarter.height <- nrow(needle.raster) / 4
-  #needle.brick <- needle.raster[1:needle.quarter.height,1:needle.quarter.width,1]
-
-
-  # correlate needle to haystack at the points of interest
-  stepDistance <- needle.width
-  for (aPOI in seq(from=1,to=length(points.of.interest),by=stepDistance)) {
-    locn <- arrayInd(aPOI,dim(points.of.interest))
-    aPOI.height <- locn[1] + needle.height 
-    aPOI.width <- locn[2] + needle.width
-    
-    plot(c(0, haystack.width), c(0, haystack.height), 
-         type = "n",main=paste("x=",locn[2],"y=",locn[1]))
-    rasterImage(haystack.raster, 
-                xleft=0, xright=haystack.width,
-                ytop=haystack.height,ybottom=0)
-    rasterImage(needle.raster,
-                xleft=locn[2],xright=aPOI.width,
-                ytop=aPOI.height,ybottom=locn[1])
-    #haystack.brick <- haystack.raster[locn[1]:aPOI.height,locn[2]:aPOI.width,red.layer] 
-    #plotTitle <- paste("Point",aPOI,date())
-    #correlation.result <- ccf(as.vector(haystack.brick),as.vector(needle.raster),lag.max=(stepDistance/2),main=plotTitle,ylim=c(-1,1))
-    
-    #correlation.result <- ccf(as.vector(haystack.brick),as.vector(needle.raster),lag.max=(stepDistance/2),plot=FALSE)
-    #print(paste("point:",aPOI,"Corr_max:",max(correlation.result$acf)))
-    
-    dev.copy(png,paste("needle_raster_",aPOI,".png",sep=""))
-    dev.off()
-    #if (any(correlation.result$acf > .7)) {
-
-      # it's a hit. check for the remaining values
-    #return(c(max(correlation.result$acf),aPOI))
-    
-   # } else {
-     # print(paste("max correlated is",max(correlation.result$acf)," Row:",locn[1],"Col:",locn[2]))
-   # }
+  diff.haystack.needle.width <- haystack.width-needle.width
+  poi.columns <- (1:diff.haystack.needle.width)
+  
+  xpos <<- numeric()
+  ypos <<- numeric()
+  ccf.max <<- numeric()
+  
+  
+  stepSize <- 100
+  for (rowIndex in seq(from=poi.rows[1],
+                       to=poi.rows[length(poi.rows)],
+                       by=stepSize)) {
+    for (columnIndex in seq(from=poi.columns[1],
+                            to=poi.columns[length(poi.columns)],
+                            by=stepSize)) {
+      #       if (rowIndex+needle.height < haystack.height &
+      #             columnIndex+needle.width < haystack.width) {
+      haystack.subset.to.be.correlated <- haystack.red[
+        (rowIndex:(rowIndex+needle.height)),
+        (columnIndex:(columnIndex+needle.width))
+        ]
+      
+      ccf.object <- ccf(as.vector(haystack.subset.to.be.correlated),
+                        as.vector(needle.red),
+                        plot=FALSE)
+      max.ccf <- max(ccf.object$acf)
+      ccf.max <<- append(ccf.max,max.ccf)
+      xpos <<- append(xpos,columnIndex)
+      ypos <<- append(ypos,rowIndex)
+      
+      ###########
+      # creates pretty graphics - and slows things down
+      maintitle <- paste("ccf=",round(max.ccf,2),"xpos=",columnIndex,"ypos=",rowIndex)
+      saveHere <- paste0("IAPlot_x",columnIndex,"_y",rowIndex,".png")
+      
+      png(filename=saveHere)
+      plot(c(0, haystack.width), c(0, haystack.height), main=maintitle,type = "n")
+      
+      
+      #         rasterImage(haystack.subset.to.be.correlated, 
+      #                     xleft=0, 
+      #                     xright=ncol(haystack.subset.to.be.correlated),
+      #                     ytop=nrow(haystack.subset.to.be.correlated),
+      #                     ybottom=0)
+      rasterImage(haystack.raster, 
+                  xleft=0, 
+                  xright=haystack.width,
+                  ytop=haystack.height,
+                  ybottom=0)
+      
+      rasterImage(needle.red, 
+                  xleft=columnIndex, 
+                  xright=(needle.width+columnIndex),
+                  ytop=(haystack.height-(rowIndex+needle.height)),
+                  ybottom=(haystack.height-rowIndex))
+      dev.off()
+      ###########
+      
+      cat("rowIndex=",rowIndex,"columnIndex=",columnIndex,"               \r")
+      #       }
+    }
   }
-
+  
+  ccf.results <- matrix(c(xpos,ypos,ccf.max),ncol=3)
+  colnames(ccf.results) <- c("xpos","ypos","ccf.max")
+  
+  #if (any(correlation.result$acf > .7)) {
+  
+  # it's a hit. check for the remaining values
+  #return(c(max(correlation.result$acf),aPOI))
+  
+  # } else {
+  # print(paste("max correlated is",max(correlation.result$acf)," Row:",locn[1],"Col:",locn[2]))
+  # }
+  
+  
   return(FALSE)
 }
