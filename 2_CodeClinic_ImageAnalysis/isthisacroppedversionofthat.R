@@ -68,14 +68,18 @@ isthisacroppedversionofthat <- function(needle,haystack) {
       xpos <<- append(xpos,columnIndex)
       ypos <<- append(ypos,rowIndex)
       
+      browser()
       ###########
       # creates pretty graphics - and slows things down
       maintitle <- paste("ccf=",round(max.ccf,2),"xpos=",columnIndex,"ypos=",rowIndex)
-      saveHere <- paste0("IAPlot_x",columnIndex,"_y",rowIndex,".png")
+      maintitle2 <- paste("ccf=",round(max.ccf,2))
+      saveHere <- paste0("Plot",sprintf("%04d",rowIndex),sprintf("%04d",columnIndex),"_x",columnIndex,"_y",rowIndex,".png")
       
       png(filename=saveHere)
+     # nf <- layout(matrix(c(1,2),1,2,byrow=T),c(1,1),c(1,1),T)
+      #layout.show(nf)
+      #boxplot(ccf.object$acf,ylim=c(0,1),main=maintitle2)
       plot(c(0, haystack.width), c(0, haystack.height), main=maintitle,type = "n")
-      
       
       #         rasterImage(haystack.subset.to.be.correlated, 
       #                     xleft=0, 
@@ -104,15 +108,4 @@ isthisacroppedversionofthat <- function(needle,haystack) {
   ccf.results <- matrix(c(xpos,ypos,ccf.max),ncol=3)
   colnames(ccf.results) <- c("xpos","ypos","ccf.max")
   
-  #if (any(correlation.result$acf > .7)) {
-  
-  # it's a hit. check for the remaining values
-  #return(c(max(correlation.result$acf),aPOI))
-  
-  # } else {
-  # print(paste("max correlated is",max(correlation.result$acf)," Row:",locn[1],"Col:",locn[2]))
-  # }
-  
-  
-  return(FALSE)
 }
