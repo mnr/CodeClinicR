@@ -84,7 +84,7 @@ GetPendOreille <- function(startDate,endDate) {
     # increment date.pointer
     # if the.end.date < 2009 then it is ok to increment by a year
     # else, increment by a day
-
+    
     if (year(the.end.date) < 2009) {
       year(date.pointer) <- year(date.pointer) + 1
     } else {
@@ -103,11 +103,7 @@ GetPendOreille <- function(startDate,endDate) {
   # wind speed, air temperature and barometric pressure 
   # recorded at the deep moor station 
   # for a given range of dates
-  # summary(por.weather.data)
-  
-  browser()
-  # Mean <- sapply(por.weather.data[2:4], mean, na.rm = TRUE)
-  # colMeans is the same as above, but faster 
+
   Mean <- colMeans(por.weather.data[2:4], na.rm=TRUE)
   Median <- sapply(por.weather.data[2:4], median, na.rm = TRUE)
   rbind(Mean,Median)
