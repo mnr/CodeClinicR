@@ -35,14 +35,20 @@ GetPendOreille <- function(startDate,endDate) {
   
   # Now I'm confident the input is usable.
   # Based on the input, I'm going to grab the data I need
-  tmp.null <- lapply(requestedYears,lakePORData$loadAYearOfData)
   
-  # grab the resulting data
-  por.weather.data <- lakePORData$yearsOfData()
-  
-  # trim out the dates we don't need
-  por.weather.data <- por.weather.data[por.weather.data$datetime >= the.start.date,]
-  por.weather.data <- por.weather.data[por.weather.data$datetime <= (the.end.date + days(1)),]
+  # The old way
+#   tmp.null <- lapply(requestedYears,lakePORData$loadAYearOfData)
+#   
+
+#   # grab the resulting data
+#   por.weather.data <- lakePORData$YearsOfData()
+#     
+#   # trim out the dates we don't need
+#   por.weather.data <- por.weather.data[por.weather.data$datetime >= the.start.date,]
+#   por.weather.data <- por.weather.data[por.weather.data$datetime <= (the.end.date + days(1)),]
+#   
+  # the new way
+  por.weather.data <- lakePORData$getPORDataRange(the.start.date,the.end.date)
   
   # calculate the mean and median of the 
   # wind speed, air temperature and barometric pressure 
@@ -52,4 +58,5 @@ GetPendOreille <- function(startDate,endDate) {
   Mean <- colMeans(por.weather.data[2:8], na.rm=TRUE)
   Median <- sapply(por.weather.data[2:8], median, na.rm = TRUE)
   rbind(Mean,Median)
+  
 }
