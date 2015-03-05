@@ -19,7 +19,9 @@ handleMouse <- function(x,y) {
   thePitchIndex <- kPitchRangeLength* as.numeric(y) / 200
   
   # "afplay -v" is the sound player for macintosh
-  # "C:/Program Files/Window Media Player/wmplayer.exe" for windows maybe?
+  # for windows, possibly one of the following...
+  # "C:/Program Files/Window Media Player/wmplayer.exe"
+  # powershell -c (New-Object Media.SoundPlayer "sound.wav").PlaySync();
   play(pitches[[thePitchIndex]],"afplay -v ",theVolume)
   
 }
