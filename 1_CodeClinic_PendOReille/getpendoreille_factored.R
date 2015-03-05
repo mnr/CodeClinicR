@@ -15,7 +15,6 @@ GetPendOreille <- function(startDate,endDate) {
   # be sure to setwd() to the directory containing the source
   if (!exists("LakePendOreilleData")) source("LakePendOreilleData.R")
   
-  # The function request passes a basic set of validations
   # Open up a connection to the data
   # or stops if the connection is not available
   lakePORData <- LakePendOreilleData()
@@ -35,19 +34,6 @@ GetPendOreille <- function(startDate,endDate) {
   
   # Now I'm confident the input is usable.
   # Based on the input, I'm going to grab the data I need
-  
-  # The old way
-#   tmp.null <- lapply(requestedYears,lakePORData$loadAYearOfData)
-#   
-
-#   # grab the resulting data
-#   por.weather.data <- lakePORData$YearsOfData()
-#     
-#   # trim out the dates we don't need
-#   por.weather.data <- por.weather.data[por.weather.data$datetime >= the.start.date,]
-#   por.weather.data <- por.weather.data[por.weather.data$datetime <= (the.end.date + days(1)),]
-#   
-  # the new way
   por.weather.data <- lakePORData$getPORDataRange(the.start.date,the.end.date)
   
   # calculate the mean and median of the 
