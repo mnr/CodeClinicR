@@ -10,7 +10,7 @@ SingScat <- function() {
   #  system(paste("say [[volm .", theVolume, "]]bah",sep=""))
   #}
   
-  for(theVolume in 0:9){
+  for(theVolume in 5:9){
     for(thePitch in 34:80){
       volm.string <- paste("[[volm .", theVolume, "]]",sep="")
       pbas.string <- paste("[[pbas ", thePitch, "]]",sep="")
