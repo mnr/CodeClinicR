@@ -3,6 +3,7 @@
 # uses the local environment approach
 # http://cran.r-project.org/doc/manuals/r-release/R-lang.html#Argument-evaluation
 # recommended reading: http://www.cyclismo.org/tutorial/R/s3Classes.html
+# recommended reading: http://adv-r.had.co.nz/OO-essentials.html
 # assumes presence of lubridate for date conversion
 
 LakePendOreilleData <- function() {
@@ -32,7 +33,7 @@ LakePendOreilleData <- function() {
   
   # get a list of available years of data
   # stubbing this out for now until navy.mil stabilizes their naming conventions
-  availableYearsOfData <- c("2011","2012","2013","2014")
+  availableYearsOfData <- c("2011","2012","2013","2014","2015")
   
   buildPathToData <- function(theYear) {
     paste0(kPORDeepMoorPath,"DM/Environmental_Data_Deep_Moor_",theYear,".txt")
