@@ -68,7 +68,6 @@ isthisacroppedversionofthat <- function(needle,haystack) {
       xpos <<- append(xpos,columnIndex)
       ypos <<- append(ypos,rowIndex)
       
-      browser()
       ###########
       # creates pretty graphics - and slows things down
       maintitle <- paste("ccf=",round(max.ccf,2),"xpos=",columnIndex,"ypos=",rowIndex)
