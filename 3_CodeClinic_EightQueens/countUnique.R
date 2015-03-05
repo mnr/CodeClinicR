@@ -14,6 +14,13 @@ countUnique <- function(x) {
 }
 
 ################################
+#     user   system  elapsed 
+# 1035.575   64.781 1209.968 
+countUnique <- function(x) {
+  ifelse(length(unique(as.list(x))) == 8,TRUE,FALSE)
+}
+
+################################
 #    user  system elapsed 
 # 212.989  14.886 235.417 
 countUnique <- function(x) {
@@ -34,9 +41,3 @@ countUnique <- function(x) {
   }
 }
 
-################################
-#     user   system  elapsed 
-# 1035.575   64.781 1209.968 
-countUnique <- function(x) {
-  ifelse(length(unique(as.list(x))) == 8,TRUE,FALSE)
-}
