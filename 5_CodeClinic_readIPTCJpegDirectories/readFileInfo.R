@@ -1,8 +1,11 @@
 # searching for directories and jpeg files in them
 
-# for Macintosh Mavericks, install imagemagick
+# requires imagemagick
 # http://www.imagemagick.org
 
+library(tools) # need tools for file_ext
+
+# Search Directories for Images --------------------------------------------------------
 # recursively search directories for image files
 directoryToStart <- "/Users/mnr/git/Code_Clinic_for_R"
 foundImages <- list.files(path = directoryToStart,
@@ -23,6 +26,7 @@ imageList$ext <- file_ext(imageList[,"foundImages"])
 makeDirectoryHere <- "/Users/mnr/Desktop/CodeClinic"
 dir.create(makeDirectoryHere)
 
+# Find Image Data -----------------------------------------
 #grab the IPTC data for each image
 for (imageIndex in 1:nrow(imageList)) {
   # this uses imagemagick to get the data
@@ -33,6 +37,9 @@ for (imageIndex in 1:nrow(imageList)) {
   tmp.caption <- sub('(.*\\\")(.*)(\\\")',"\\2",tmp.captionLine,perl=TRUE,useBytes=TRUE)
   imageList$caption[imageIndex] <- tmp.caption
   
+  
+  # Sort into directories -----------------------------
+  
   # sort the images into the directory
   firstCharCaption <- substr(imageList$caption[imageIndex],1,1)
   putItHere <- file.path(makeDirectoryHere,firstCharCaption)
@@ -40,5 +47,7 @@ for (imageIndex in 1:nrow(imageList)) {
   file.copy(from = imageList$foundImages[imageIndex],
             to=file.path(putItHere,paste0(imageList$caption[imageIndex],".",imageList$ext[imageIndex])))
 }
+
+
 
 
