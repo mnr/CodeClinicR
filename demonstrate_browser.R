@@ -3,6 +3,8 @@
 testrun <- 1:10
 
 dosomething <- function (x) {
+  # browser()
+  
   print(x)
 }
 
