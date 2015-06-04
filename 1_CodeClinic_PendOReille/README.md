@@ -5,13 +5,13 @@
 
 PRONUNCIATION TIP: Pend Oreille is pronounced “Pond O-Ray”
 
-Hello, and welcome to Code Clinic. My name is ______ .
-
 Code Clinic is a monthly course where a unique problem is introduced to a collection of lynda.com authors. In response, each author will create a solution using their programming language of choice. You can learn several things from Code Clinic: different approaches to solving a problem, the pros and cons of different languages, and some tips and tricks to incorporate into your own coding practices.
 
-This month, we’ll work on a problem in statistical analysis and to some extent, handling big data. It’s common to use a computer to manipulate and summarize large amounts of information, providing important insights on how to improve or handle a situation.
+This is a problem in statistical analysis and to some extent, handling big data. It’s common to use a computer to manipulate and summarize large amounts of information, providing important insights on how to improve or handle a situation.
 
 In this problem, we’ll use weather data collected by the US Navy from Lake Pend Oreille in Northern Idaho. Lake Pend Oreille is  the fifth deepest freshwater lake in the United States. So deep, in fact, that the US Navy uses it to test submarines. 
+
+Note: The original data is located [here](http://lpo.dt.navy.mil/data/). If you live outside of the United States, you won't be able to access this data. Instead, we have created a static repository [here](https://github.com/lyndadotcom/LPO_weatherdata).
 
 As part of that testing, the US Navy compiles an exhaustive list of weather statistics. Wind speed, Air Temperature, Barometric Pressure. 
 You can browse this data by pointing your web browser at [http://lpo.dt.navy.mil/](). You’ll find several weather summaries, a web cam, and the raw data they collect every five minutes, archived as standard text files.
