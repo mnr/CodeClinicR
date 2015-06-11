@@ -1,6 +1,8 @@
 # Different attempts at countUnique
  
 # countUnique wipes out two or more queens in one row
+# returns FALSE if there are two or more queens in one row
+# returns TRUE if the row is falid
 
 ################################
 #       user   system  elapsed 
@@ -41,3 +43,9 @@ countUnique <- function(x) {
   }
 }
 
+################################
+#    user  system elapsed 
+# 500.989  11.123 534.888 
+countUnique <- function(x) {
+  return(!anyDuplicated(x))
+}
