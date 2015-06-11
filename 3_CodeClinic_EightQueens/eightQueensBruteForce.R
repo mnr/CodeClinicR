@@ -14,6 +14,9 @@ number.of.rows <- nrow(clean.columns) # used by countUnique
 index <- 0 # used by countUnique
 
 # start the process of removing rows with conflicts
+# with system.time
+# system.time(clean.columns.and.rows <- clean.columns[apply(clean.columns,1,countUnique),])
+# and without system.time
 clean.columns.and.rows <- clean.columns[apply(clean.columns,1,countUnique),]
 
 # down to 40320 obs
