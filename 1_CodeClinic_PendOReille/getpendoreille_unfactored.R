@@ -30,7 +30,7 @@ GetPendOreille <- function(startDate,endDate) {
   )
   
   # raw data for deep moor is found at http://lpo.dt.navy.mil/data/DM/
-  kPORDeepMoorPath <- "http://lpo.dt.navy.mil/data/DM/"
+  kPORDeepMoorPath <- "https://lpo.dt.navy.mil/data/DM/"
   
   # date.pointer keeps track of what dates have been read
   date.pointer <- the.start.date 
