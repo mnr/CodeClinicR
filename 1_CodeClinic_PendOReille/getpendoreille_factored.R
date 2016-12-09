@@ -4,8 +4,9 @@ GetPendOreille <- function(startDate,endDate) {
   # lubridate documentation at http://cran.r-project.org/web/packages/lubridate/lubridate.pdf
   
   # check input for validity
-  the.start.date <- ymd(startDate)
-  the.end.date <- ymd(endDate)
+  the.start.date <- ymd_hms(paste(ymd(startDate),"00:00:01"))
+  the.end.date <- ymd_hms(paste(ymd(endDate),"00:00:01"))
+  
   if (the.start.date > the.end.date) {
     # Error: the end date is earlier than the start date
     stop("Invalid input: start date is after end date")

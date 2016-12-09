@@ -37,7 +37,7 @@ GetPendOreille <- function(startDate,endDate) {
   
   while (date.pointer <= the.end.date) {
     if (year(date.pointer) < 2010) {
-      # prior to 2011, data was stored in one file per year
+      # prior to 2010, data was stored in one file per year
       file.to.read <- paste(kPORDeepMoorPath,"Environmental_Data_",year(date.pointer),".txt",sep="")
       # date,time,Wind_Speed,Air_Temp,Barometric_Press
       tmp.wd <- read.table(file.to.read,sep="\t",header=TRUE)
