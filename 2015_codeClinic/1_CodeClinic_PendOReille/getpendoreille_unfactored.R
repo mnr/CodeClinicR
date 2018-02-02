@@ -30,14 +30,14 @@ GetPendOreille <- function(startDate,endDate) {
   )
   
   # raw data for deep moor is found at http://lpo.dt.navy.mil/data/DM/
-  kPORDeepMoorPath <- "http://lpo.dt.navy.mil/data/DM/"
+  kPORDeepMoorPath <- "https://lpo.dt.navy.mil/data/DM/"
   
   # date.pointer keeps track of what dates have been read
   date.pointer <- the.start.date 
   
   while (date.pointer <= the.end.date) {
     if (year(date.pointer) < 2010) {
-      # prior to 2011, data was stored in one file per year
+      # prior to 2010, data was stored in one file per year
       file.to.read <- paste(kPORDeepMoorPath,"Environmental_Data_",year(date.pointer),".txt",sep="")
       # date,time,Wind_Speed,Air_Temp,Barometric_Press
       tmp.wd <- read.table(file.to.read,sep="\t",header=TRUE)

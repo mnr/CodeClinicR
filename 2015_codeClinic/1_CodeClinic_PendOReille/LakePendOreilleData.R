@@ -7,7 +7,7 @@
 # assumes presence of lubridate for date conversion
 
 LakePendOreilleData <- function() {
-  kPORDeepMoorPath <- "http://lpo.dt.navy.mil/data/"
+  kPORDeepMoorPath <- "https://lpo.dt.navy.mil/data/"
   
   # make sure the site is live
   checkURL <- file(kPORDeepMoorPath,"r")
