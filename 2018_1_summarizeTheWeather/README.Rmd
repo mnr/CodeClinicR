@@ -9,6 +9,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## GitHub Documents
 
+- start -
+Hello, and welcome to the first problem in the code clinic series.
+This problem is about calculating statistics from a data set. It's easy stuff, but presents a good example of how different languages accomplish common tasks.
+Our authors will start with weather data captured from Lake Pend O'Reille in Northern Idaho. We have almost 20 megabytes of data from the years 2012 thorugh 2015. That data is available in the folder with other exercise files.
+Each observation in the data includes several variables:
+...and the data is straightforward:
+Likewise, the problem is simple: Write a function that accepts a beginning date and time and an ending date and time...
+...inclusive of those dates and times, return the coefficient of the slope of barometric pressure.
+A rising slope indicates an increasing barometric pressure, which typically means fair and sunny weather..
+
+A falling slope indicates a decreasing barometric pressure, which typically means stormy weather.
+We're only asking our authors for the coefficient – but some may choose to generate a graph of the results as well.
+So there's our first challenge – pull statistics from a data set. Perhaps you want to pause this video and create a solution of your own. How would you solve the problem?
+In the next videos, we'll see one approach to solving the challenge.
+
+- end - 
 This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
 
 ## Including Code
