@@ -58,6 +58,7 @@ is_this_a_valid_8_queens <- function(potentialSolution) {
 # build a table containing all possible iterations
 # placing 1-8 in each column prevents horizontal violations
 allPossibleSolutions <- expand.grid(1:8,1:8,1:8,1:8,1:8,1:8,1:8,1:8) # 16777216 obs
+# allPossibleSolutions <- allPossibleSolutions[1:10, ] #subset for testing
 
 validSolutions <- rep(NA, nrow(allPossibleSolutions)) # is a row a valid solution? T or F
 
@@ -65,9 +66,10 @@ runQueen <- function() {
   progressBar <- txtProgressBar()
   for(queenRow in 1:nrow(allPossibleSolutions)) {
     setTxtProgressBar(progressBar, queenRow/nrow(allPossibleSolutions))
-    validSolutions[queenRow] <- is_this_a_valid_8_queens(allPossibleSolutions[queenRow])
+    validSolutions[queenRow] <<- is_this_a_valid_8_queens(unlist(allPossibleSolutions[queenRow, ]))
   }
 }
 
+system.time(runQueen())
 
-plotARowOfQueens()
+# plotARowOfQueens()
