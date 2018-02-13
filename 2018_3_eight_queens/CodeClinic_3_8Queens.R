@@ -72,4 +72,6 @@ runQueen <- function() {
 
 system.time(runQueen())
 
+allValidSolutions <- allPossibleSolutions[validSolutions, ]
+
 # plotARowOfQueens()
