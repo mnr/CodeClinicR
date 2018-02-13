@@ -18,6 +18,7 @@ validSolution <- c(7,5,3,1,6,8,2,4) # This should work
 
 
 # createDiagValues returns a vector identifying diagonal attack rows
+# ideas for speeding this up: cache diagonals
 createDiagValues <- function(select_row, select_col, up_or_down = 1) {
   padWithZeros <- c(rep.int(0,times = select_col))
 
@@ -33,10 +34,6 @@ createDiagValues <- function(select_row, select_col, up_or_down = 1) {
 # 
 is_this_a_valid_8_queens <- function(potentialSolution) {
   # potentialSolution is a vector of 8 numbers representing row of each column
-  
-  # if there are fewer than 8 unique values in potentialSolution ...
-  # then there are duplicate rows - FAIL
-  if (length(unique(potentialSolution)) < 8 ) return(FALSE)
   
   # check for diagonal conflicts
   for (eachElement in 1:8) {
@@ -58,6 +55,7 @@ is_this_a_valid_8_queens <- function(potentialSolution) {
 # run the complete series ----
 # build a table containing all possible iterations
 # placing 1-8 in each column prevents horizontal violations
+# Permutation (instead of expand.grid) prevents row duplications, so don't need to check that violation
 allPossibleSolutions <- permn(1:8)
 
 validSolutions <- rep(NA, length(allPossibleSolutions)) # is a row a valid solution? T or F
