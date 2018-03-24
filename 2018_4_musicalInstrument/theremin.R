@@ -38,17 +38,19 @@ playSound <- function() {
   mouseCapture <<- mouseCapture[nrow(mouseCapture):1,]
   
   # convert the data to sound
-  sonify(mouseCapture$timest, mouseCapture$yMouse, 
+  sonify(mouseCapture$yMouse, 
          duration = moveTime,
          pulse_amp = mouseCapture$xMouse/255 )
   
+}
+
+runTheremin <- function() {
   # reset the counters
   mouseCapture <- data.frame(xMouse = numeric(0), 
                              yMouse = numeric(0))
   startMoveTime <<- NULL
-}
-
-runTheremin <- function() {
+  
+  # set up tkinter
   tt<-tktoplevel()
   tkbind(tt,"<B1-Motion>", handleMouse )
   tkbind(tt,"<ButtonRelease-1>", playSound )

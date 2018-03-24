@@ -32,3 +32,8 @@ Thomas Edison observed “Negative results are just what I want. They’re just 
 Before you go any further, take some time and solve the problem yourself. You'll get a better appreciation for the challenge our authors face.
 
 OK authors. Let's make some noise!
+
+mnr notes:
+- there doesn't appear to be any way to write a wav file that includes amplitude - only frequency.
+- I can capture x and y data from the mouse using tcl/tk
+
