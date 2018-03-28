@@ -34,19 +34,19 @@ playSound <- function() {
   #<ButtonRelease-1>
   moveTime <- as.numeric(Sys.time() - startMoveTime)
   
-  # invert the y axis
+  # invert the y axis so pitch goes "up"
   mouseCapture <<- mouseCapture[nrow(mouseCapture):1,]
   
   # convert the data to sound
   sonify(mouseCapture$yMouse, 
          duration = moveTime,
          pulse_amp = mouseCapture$xMouse/255 )
-  
+
 }
 
 runTheremin <- function() {
   # reset the counters
-  mouseCapture <- data.frame(xMouse = numeric(0), 
+  mouseCapture <<- data.frame(xMouse = numeric(0), 
                              yMouse = numeric(0))
   startMoveTime <<- NULL
   
@@ -55,6 +55,9 @@ runTheremin <- function() {
   tkbind(tt,"<B1-Motion>", handleMouse )
   tkbind(tt,"<ButtonRelease-1>", playSound )
   tkfocus(tt)
+  
 }
 
 runTheremin()
+
+
