@@ -34,9 +34,14 @@ recognizeFaces <- function(imageWithFaces) {
   thePRfromJSON <- fromJSON(content(thePostResults, "text"))
 
   # display image with boxes
-  storeImageHere <- "facefileimage"
+  storeImageHere <- file.path(getwd(),"tempfacefile")
   download.file(imageWithFaces, storeImageHere, mode='wb')
   hereIsImage <- load.image(storeImageHere)
+  
+  facesWithBoxes <- file.path(getwd(), "facesWithBoxes.png")
+  
+  # save plot to disk file
+  png(filename = facesWithBoxes)
   plot(hereIsImage)
   for (eachface in 1:length(thePRfromJSON)) {
     theRect <- thePRfromJSON[[eachface]]$faceRectangle
@@ -46,9 +51,12 @@ recognizeFaces <- function(imageWithFaces) {
          ytop = theRect$top
          )
   }
+  dev.off()
+  
 
   # return face count
-  results <- list(countfaces = length(thePRfromJSON), imageLocation = NULL)
+  results <- list(countfaces = length(thePRfromJSON), 
+                  imageLocation = facesWithBoxes)
   return(toJSON(results))
 }
 
