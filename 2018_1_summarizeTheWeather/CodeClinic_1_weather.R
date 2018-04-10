@@ -43,7 +43,7 @@ lpoBaroPressure <- function(beginDateTime, endDateTime) {
     AND `date.......time` <= "%s"
     ',
     beginDateTime,
-    endDateTime
+    endDateTime 
   )
   
   lpo_weather_data <- read.csv.sql(lpoRawData,
