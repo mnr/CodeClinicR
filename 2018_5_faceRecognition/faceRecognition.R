@@ -5,34 +5,60 @@
 # More Learning: http://niemannross.com/link/mnratlil
 # Description: Code Clinic R: Solution 5. facial recognition
 
-# First, the function should accept a jpeg, gif or png file of varying dimensions.
-# Their function should then identify the number of faces in that image. 
-# There may not be any faces in the image, in which case the function should return zero.
-# If the author chooses to go for extra credit, their function can create 
-# a copy of the image with the faces visually identified, either with a surrounding box or other method.
-
-#The function should return a JSON file with two fields: countFaces and imageLocation
-#{
-#  "countFaces" : 3,
-#  "imageLocation" : "file.jpg"
-#}
+# tutorial - https://docs.microsoft.com/en-us/azure/cognitive-services/face/face-api-how-to-topics/howtodetectfacesinimage
+# get a subscription key - https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/vision-api-how-to-topics/howtosubscribe
+# https://azure.microsoft.com/en-us/try/cognitive-services/my-apis/
 
 # install.packages("rjson")
+# install.packages("httr")
+# install.pacakges("imager")
 
 library(rjson)
-
-# Key 1: 7a533dd6c382492daa3b83b480e85d7c
-# Key 2: 50946cd489104c70b3215cc9ef70f5f0
-
+library(httr)
+library(imager)
 
 recognizeFaces <- function(imageWithFaces) {
+  # imageWithFaces is a URL to a jpeg, gif or png
   
-  endpoint <- "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/"
-  FaceRecogURL <- "detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes={string}"
-  contentType <- "Content-Type: application/json"
-  apiKey <- "Ocp-Apim-Subscription-Key: <Subscription Key>"
+  endpoint <- "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect"
+  FaceRecogURL <- "?returnFaceId=true&returnFaceRectangle=true"
   
-  results <- list(countfaces = 3, imageLocation = "file.jpg")
+  theURLtoSend <- paste0(endpoint,FaceRecogURL)
+  theBodytoSend <- paste0('{"url": "',imageWithFaces,'"}')
+  
+  thePostResults <- POST(theURLtoSend, 
+       add_headers( "Ocp-Apim-Subscription-Key" = "7a533dd6c382492daa3b83b480e85d7c" ),
+       body = theBodytoSend,
+       encode = "json"
+       )
+  thePRfromJSON <- fromJSON(content(thePostResults, "text"))
+
+  # display image with boxes
+  storeImageHere <- file.path(getwd(),"tempfacefile")
+  download.file(imageWithFaces, storeImageHere, mode='wb')
+  hereIsImage <- load.image(storeImageHere)
+  
+  facesWithBoxes <- file.path(getwd(), "facesWithBoxes.png")
+  
+  # save plot to disk file
+  png(filename = facesWithBoxes)
+  plot(hereIsImage)
+  for (eachface in 1:length(thePRfromJSON)) {
+    theRect <- thePRfromJSON[[eachface]]$faceRectangle
+    rect(xleft = theRect$left, 
+         ybottom = theRect$top + theRect$height,
+         xright = theRect$left + theRect$width,
+         ytop = theRect$top
+         )
+  }
+  dev.off()
+  
+
+  # return face count
+  results <- list(countfaces = length(thePRfromJSON), 
+                  imageLocation = facesWithBoxes)
   return(toJSON(results))
 }
+
+recognizeFaces("https://www.nasa.gov/sites/default/files/iss038-s-002.jpg")
 
