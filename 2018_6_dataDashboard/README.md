@@ -22,5 +22,6 @@ For extra credit, we also supply a list of functions that affect some of the pro
 
 
 Authors could choose to allow for experimentation with the value of limitY, showing the result in the graph.
+
 Before you go any further, take some time and solve the problem yourself. You'll get a better appreciation for the challenge our authors face.
 Collecting data is important. But not as important as understanding what it means. Authors – Show us what this all means.
