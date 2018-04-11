@@ -13,7 +13,7 @@
 #' getDashBoardDataRow()
 
 
-getDashBoardDataRow <- function() {
+getDashBoardDataRow <- function(howManyRows = 1) {
 
   time_date_posixct <- as.POSIXct(trunc(Sys.time(), units = "days"))
   time_now_posixct <- Sys.time()
