@@ -29,7 +29,7 @@ plot_pulseToengine <- function(howManyToPlot = 10) {
   symbols(timeStamp_num, engineEff,
           xlab = "Time",
           ylab = "Engine Efficiency",
-          inches = 1/5,
+          inches = pulseMeter/255,
           circles = pulseMeter,
           bg = rgb(redVal/255, blueVal/255, greenVal/255),
           xaxt = "n"
