@@ -11,11 +11,6 @@ library(CodeClinicDataDash)
 shinyServer(function(input, output, session) {
   
   autoInvalidate <- reactiveTimer(1000)
-  
-  output$time_stamp <- renderText({
-    autoInvalidate()
-    return(strftime(getDashBoardDataRow()$time_stamp, format = "%H-%M-%S"))
-  })
     
   output$dataTableRow <- renderTable({
     autoInvalidate()
