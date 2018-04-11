@@ -12,8 +12,9 @@
 #' @return a plot
 #'
 #' @examples
-#' plot_pulseToengine(dashBoardData[1:10, "Pulsometer_readout"],  dashBoardData[1:10, "Engine_efficiency"])
+#' plot_pulseToengine()
 
-plot_pulseToengine <- function(pulsometer_10, engine_10) {
-  plot(pulsometer_10, engine_10)
+plot_pulseToengine <- function() {
+  maybe_ten_rows <- getDashBoardDataRow(10)
+  plot(maybe_ten_rows$Pulsometer_readout, maybe_ten_rows$Engine_efficiency)
 }
