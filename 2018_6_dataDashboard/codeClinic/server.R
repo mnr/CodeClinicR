@@ -16,29 +16,20 @@ shinyServer(function(input, output, session) {
     autoInvalidate()
     return(strftime(getDashBoardDataRow()$time_stamp, format = "%H-%M-%S"))
   })
-  
-  output$pulsometer <- renderText({
+    
+  output$dataTableRow <- renderTable({
     autoInvalidate()
-    return(getDashBoardDataRow()$Pulsometer_readout)
+    reshapeRow <- getDashBoardDataRow()
+    valueNames <- names(reshapeRow)
+    reshapeRow <- t(reshapeRow)
+    reshapeRow <- cbind(data.frame(Name = valueNames), reshapeRow)
+    colnames(reshapeRow) <- c("Name", "Value")
+    return(reshapeRow)
   })
   
-  output$engine <- renderText({
+  output$dataPlot <- renderPlot({
     autoInvalidate()
-    return(getDashBoardDataRow()$Engine_efficiency)
+    plot_pulseToengine(input$DataPoints)
   })
   
-  output$red_Value <- renderText({
-    autoInvalidate()
-    return(getDashBoardDataRow()$red_Value)
-  })
-  
-  output$blue_Value <- renderText({
-    autoInvalidate()
-    return(getDashBoardDataRow()$blue_Value)
-  })
-  
-  output$green_Value <- renderText({
-    autoInvalidate()
-    return(getDashBoardDataRow()$green_Value)
-  })
 })

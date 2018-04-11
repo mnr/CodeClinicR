@@ -11,28 +11,24 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("mnr"),
+  titlePanel("Code Clinic Problem 6 - Data Dashboard"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
+       sliderInput("DataPoints",
+                   "Number of Data Points:",
                    min = 1,
                    max = 50,
-                   value = 30),
-       textOutput("time_stamp"),
-       textOutput("pulsometer"),
-       textOutput("engine"),
-       textOutput("red_Value"),
-       textOutput("blue_Value"),
-       textOutput("green_Value")
+                   value = 10),
+       tableOutput("dataTableRow")
        
     ),
     
     # Show a plot of the generated distribution
     mainPanel(
-       plotOutput("distPlot")
+       plotOutput("dataPlot")
+       
     )
   )
 ))
