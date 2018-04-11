@@ -1,0 +1,32 @@
+Package: CodeClinicDataDash
+Type: Package
+Title: Dataset And Tools For Code Clinic Problem 6
+Version: 0.1.0
+Authors@R: person("Mark", "Niemann-Ross", 
+   email = "mark@niemannross.com",
+   role = c("aut", "cre"))
+URL: http://niemannross.com/link/mnratlil
+Description: Support data and tools for the sixth and final problem 
+    of the Code Clinic Series.
+        In this challenge, we are asking our authors to create a 
+    dashboard that represents the status of a fictional manufacturing 
+    process. The status is contained in a text file with a days 
+    worth of observations, one per second. Each observation includes 
+    a time stamp and the status of several processes at that time. 
+    The challenge to our authors is to create a dashboard that 
+    shows the status of each process at the current simulated time. 
+    For example: at 4 pm local time, the dashboard should show the 
+    values in the data set corresponding to 16:00:00.
+        For extra credit, we also supply a list of functions 
+    that affect some of the processes. Authors can choose to 
+    allow for interactive control of those values. For example, 
+    one variable is a sawtooth wave with an inversion point. 
+    The value increases in a linear ramp, when it reaches the 
+    inversion point, it decreases on a linear ramp.
+        Authors could choose to allow for experimentation with 
+    the value of limitY, showing the result in the graph.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: tidyverse
+RoxygenNote: 6.0.1
