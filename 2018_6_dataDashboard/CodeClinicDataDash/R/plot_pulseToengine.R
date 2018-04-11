@@ -16,5 +16,12 @@
 
 plot_pulseToengine <- function() {
   maybe_ten_rows <- getDashBoardDataRow(10)
-  plot(maybe_ten_rows$Pulsometer_readout, maybe_ten_rows$Engine_efficiency)
-}
+  pulse_tmp <- maybe_ten_rows$Pulsometer_readout
+  efficiency_tmp <- maybe_ten_rows$Engine_efficiency
+
+  plot(pulse_tmp, efficiency_tmp)
+  lines(spline(pulse_tmp, efficiency_tmp, method = 'natural', n = 100))
+
+  title("this is a title")
+
+  }
