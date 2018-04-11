@@ -20,6 +20,10 @@ getDashBoardDataRow <- function(howManyRows = 1) {
   time_secSinceMidnight_difftime <- difftime(time_now_posixct, time_date_posixct, units = "secs")
   secondsSinceMidnight <- trunc(as.numeric(time_secSinceMidnight_difftime))
 
-  return( dashBoardData[ secondsSinceMidnight, ] )
+  previousSeconds <- ifelse(secondsSinceMidnight > howManyRows,
+                            secondsSinceMidnight - howManyRows + 1,
+                            1)
+
+  return( dashBoardData[ previousSeconds:secondsSinceMidnight, ] )
 
 }
