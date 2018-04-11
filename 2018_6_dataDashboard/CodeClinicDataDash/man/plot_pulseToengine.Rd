@@ -4,19 +4,17 @@
 \alias{plot_pulseToengine}
 \title{plot pulsometer against engine efficiency}
 \usage{
-plot_pulseToengine(pulsometer_10, engine_10)
+plot_pulseToengine(howManyToPlot = 10)
 }
 \arguments{
-\item{pulsometer_10}{a vector of 10 values from pulsometer.}
-
-\item{engine_10}{a vector of 10 values from engine efficiency.}
+\item{howManyToPlot}{how many points to plot. Default 10}
 }
 \value{
-a plot
+a plot with splines
 }
 \description{
 plot pulsometer against engine efficiency
 }
 \examples{
-plot_pulseToengine(dashBoardData[1:10, "Pulsometer_readout"],  dashBoardData[1:10, "Engine_efficiency"])
+plot_pulseToengine()
 }

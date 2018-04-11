@@ -4,7 +4,13 @@
 \alias{getDashBoardDataRow}
 \title{Return a row from data table based on current time.}
 \usage{
-getDashBoardDataRow()
+getDashBoardDataRow(howManyRows = 1)
+}
+\arguments{
+\item{howManyRows}{Number of rows to return. These rows represente earlier observations.
+If the number of rows requested are less than the number of seconds from midnight, return will
+be only from the first row - and probably less than the number requested. Be sure
+to check the number of rows returned - it may be less than you asked for.}
 }
 \value{
 A row of data from dashBoardData
