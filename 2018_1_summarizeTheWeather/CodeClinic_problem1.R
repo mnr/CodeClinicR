@@ -58,7 +58,7 @@ print(paste("Number of rows imported: ", nrow(LPO_weather_data)))
 # an ending date and time...
 
 startDateTime <- "2014-01-01 12:03:34"
-endDateTime <- "2015-01-01 12:03:34"
+endDateTime <- "2014-02-01 12:03:34"
 
 # ...then...
 # inclusive of those dates and times return the coefficient of the
@@ -70,17 +70,16 @@ calculateBaroPress <- function(startDateTime, endDateTime) {
   baroPress <- subset(
     LPO_weather_data,
     ymd_hms(paste(date, time)) %within% dateTimeInterval,
-    select = c(Barometric_Press)
+    select = c(Barometric_Press, date, time)
   )
   
-  slope <- 1:nrow(baroPress)
+  slope <- ymd_hms(paste(baroPress$date, baroPress$time))
   
-  BP_linearModel <- lm(Barometric_Press ~ slope, data = baroPress)
-  
-  coef(BP_linearModel)
+  lm(Barometric_Press ~ slope, data = baroPress)
+
 }
 
-calculateBaroPress(startDateTime, endDateTime)
+coef(calculateBaroPress(startDateTime, endDateTime))
 
 # A rising slope indicates an increasing barometric pressure,
 # which typically means fair and sunny weather. A falling slope
@@ -89,4 +88,25 @@ calculateBaroPress(startDateTime, endDateTime)
 
 # We're only asking for the coefficient – but some may choose
 # to generate a graph of the results as well.
-plot(BP_linearModel)
+
+
+# Graph Barometric Pressure -----------------------------------------------
+dateTimeInterval <- interval(ymd_hms(startDateTime),
+                             ymd_hms(endDateTime))
+
+baroPress <- subset(
+  LPO_weather_data,
+  ymd_hms(paste(date, time)) %within% dateTimeInterval,
+  select = c(Barometric_Press, date, time)
+)
+
+thisDateTime <- ymd_hms(paste(baroPress$date, baroPress$time))
+
+plot(x = thisDateTime,
+     y = baroPress$Barometric_Press,
+     xlab = "Date and Time",
+     ylab = "Barometric Pressure",
+     main = paste("Barometric Pressure from ", ymd_hms(startDateTime), "to", ymd_hms(endDateTime) ))
+abline(calculateBaroPress(startDateTime, endDateTime), col = "red")
+
+
