@@ -1,0 +1,127 @@
+---
+title: "Code Clinic Weather Solution"
+Author: "Mark Niemann-Ross"
+output: html_document
+runtime: shiny
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(magrittr)
+library(lubridate)
+
+```
+
+## Introduction
+This Code Clinic problem is about calculating statistics from a data set. It's easy stuff, but presents a good example of how different languages accomplish common tasks.
+
+## Import the source data
+The data set is weather data captured from Lake Pend O'Reille in Northern Idaho. We have almost 20 megabytes of data from the years 2012 thorugh 2015. That data is available in the folder with other exercise files. Each observation in the data includes several variables and the data is straightforward.
+
+```{r importweatherdata }
+mytempfile <- tempfile()
+
+readOneFile <- function(dataPath) {
+  read.table(dataPath,
+             header = TRUE,
+             stringsAsFactors = FALSE
+             )
+}
+
+for (dataYear in 2012:2015) {
+  dataPath <- paste0("https://raw.githubusercontent.com/lyndadotcom/LPO_weatherdata/master/Environmental_Data_Deep_Moor_",
+                     dataYear,
+                     ".txt")
+
+  if ( exists("LPO_weather_data") ) {
+    mytempfile <- readOneFile(dataPath)
+    LPO_weather_data <- rbind(LPO_weather_data, mytempfile)
+  } else {
+    LPO_weather_data <- readOneFile(dataPath)
+  }
+}
+
+```
+
+```{r checkweatherdata, echo = FALSE}
+head(LPO_weather_data, n = 3)
+tail(LPO_weather_data, n = 3)
+
+print(paste("Number of rows imported: ", nrow(LPO_weather_data) ) )
+```
+
+
+## Description of the challenge
+The problem is simple: Write a function that accepts ...
+a beginning date and time 
+...and...
+an ending date and time...
+
+```{r inputDateRange, echo = FALSE}
+
+minDate = ymd(LPO_weather_data[ 1, "date" ])
+maxDate = ymd(LPO_weather_data[ nrow(LPO_weather_data), "date" ])
+
+inputPanel(
+  dateInput("theStartDate", label = "Start Date: ",
+            min = minDate,
+            max = maxDate,
+            value = "2014-01-01"
+  ),
+  
+  textInput("theStartTime", label = "Start Time: ",
+            value = "12:03:34"),
+  
+  dateInput("theEndDate", label = "End Date: ",
+            min = minDate,
+            max = maxDate,
+            value = "2015-01-01"
+  ),
+  
+  textInput("theEndTime", label = "End Time: ",
+            value = "12:03:34")
+  
+)
+
+```
+...then...
+inclusive of those dates and times return the coefficient of the slope of barometric pressure. 
+```{r calculate barometric Coefficient}
+
+#output$coeff <- renderText({
+#output$theCoef <- reactive({
+output$theSolution <- renderTable({
+  startDateTime <- paste(input$theStartDate, input$theStartTime)
+  endDateTime <- paste(input$theEndDate, input$theEndTime)
+  
+  dateTimeInterval <- interval(ymd_hms(startDateTime),
+                               ymd_hms(endDateTime))
+  baroPress <- subset(LPO_weather_data,
+                      ymd_hms(paste(date, time)) %within% dateTimeInterval,
+                      select = c(Barometric_Press)
+  )
+  
+  lmTerms <- 1:nrow(baroPress)
+  
+  BP_linearModel <- lm(Barometric_Press ~ lmTerms, data = baroPress)
+  
+  #theCoef <- coef(BP_linearModel)
+  toBeReturned <- as.data.frame(coef(BP_linearModel))
+  toBeReturned[1,1] <- "Intercept"
+  toBeReturned[2,1] <- "Slope"
+})
+
+# output$coefIntercept <- renderText({theCoef[1]})
+# output$coeflmTerms <- renderText({theCoef[2]})
+
+#h3(textOutput("coeff"))
+tableOutput("theSolution")
+```
+
+
+A rising slope indicates an increasing barometric pressure, which typically means fair and sunny weather. A falling slope indicates a decreasing barometric pressure, which typically means stormy weather.
+
+We're only asking for the coefficient – but some may choose to generate a graph of the results as well.
+
