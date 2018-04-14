@@ -63,15 +63,20 @@ endDateTime <- "2014-02-01 12:03:34"
 # ...then...
 # inclusive of those dates and times return the coefficient of the
 # slope of barometric pressure.
-calculateBaroPress <- function(startDateTime, endDateTime) {
-  dateTimeInterval <- interval(ymd_hms(startDateTime),
-                               ymd_hms(endDateTime))
-  
-  baroPress <- subset(
+
+getBaromPressures <- function(dateTimeInterval) {
+  subset(
     LPO_weather_data,
     ymd_hms(paste(date, time)) %within% dateTimeInterval,
     select = c(Barometric_Press, date, time)
   )
+}
+
+calculateBaroPress <- function(startDateTime, endDateTime) {
+  dateTimeInterval <- interval(ymd_hms(startDateTime),
+                               ymd_hms(endDateTime))
+  
+  baroPress <- getBaromPressures(dateTimeInterval)
   
   slope <- ymd_hms(paste(baroPress$date, baroPress$time))
   
@@ -94,11 +99,7 @@ coef(calculateBaroPress(startDateTime, endDateTime))
 dateTimeInterval <- interval(ymd_hms(startDateTime),
                              ymd_hms(endDateTime))
 
-baroPress <- subset(
-  LPO_weather_data,
-  ymd_hms(paste(date, time)) %within% dateTimeInterval,
-  select = c(Barometric_Press, date, time)
-)
+baroPress <- getBaromPressures(dateTimeInterval)
 
 thisDateTime <- ymd_hms(paste(baroPress$date, baroPress$time))
 
