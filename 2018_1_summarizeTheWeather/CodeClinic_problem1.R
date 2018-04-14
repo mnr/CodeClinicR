@@ -99,18 +99,29 @@ calculateBaroPress(startDateTime, endDateTime)
 
 
 # Graph Barometric Pressure -----------------------------------------------
-dateTimeInterval <- interval(ymd_hms(startDateTime),
-                             ymd_hms(endDateTime))
+graphBaroPressure <- function(startDateTime, endDateTime ) {
+  
+  dateTimeInterval <- interval(ymd_hms(startDateTime),
+                               ymd_hms(endDateTime))
+  
+  baroPress <- getBaromPressures(dateTimeInterval)
+  
+  thisDateTime <- ymd_hms(paste(baroPress$date, baroPress$time))
+  
+  plot(
+    x = thisDateTime,
+    y = baroPress$Barometric_Press,
+    xlab = "Date and Time",
+    ylab = "Barometric Pressure",
+    main = paste(
+      "Barometric Pressure from ",
+      ymd_hms(startDateTime),
+      "to",
+      ymd_hms(endDateTime)
+    )
+  )
+  abline(calculateBaroPress(startDateTime, endDateTime), col = "red")
+}
 
-baroPress <- getBaromPressures(dateTimeInterval)
-
-thisDateTime <- ymd_hms(paste(baroPress$date, baroPress$time))
-
-plot(x = thisDateTime,
-     y = baroPress$Barometric_Press,
-     xlab = "Date and Time",
-     ylab = "Barometric Pressure",
-     main = paste("Barometric Pressure from ", ymd_hms(startDateTime), "to", ymd_hms(endDateTime) ))
-abline(calculateBaroPress(startDateTime, endDateTime), col = "red")
-
+graphBaroPressure(startDateTime, endDateTime)
 
