@@ -57,13 +57,16 @@ print(paste("Number of rows imported: ", nrow(LPO_weather_data)))
 # ...and...
 # an ending date and time...
 
-startDateTime <- "2014-01-01 12:03:34"
-endDateTime <- "2014-02-01 12:03:34"
+startDateTime <- "2014-01-02 12:03:34"
+endDateTime <- "2014-01-04 12:03:34"
 
 # ...then...
 # inclusive of those dates and times return the coefficient of the
 # slope of barometric pressure.
 
+# helper function to get a subset of LPO_weather_data
+# observations are the date range
+# variables are barometric pressure, date, and time
 getBaromPressures <- function(dateTimeInterval) {
   subset(
     LPO_weather_data,
@@ -84,7 +87,7 @@ calculateBaroPress <- function(startDateTime, endDateTime) {
 
 }
 
-coef(calculateBaroPress(startDateTime, endDateTime))
+calculateBaroPress(startDateTime, endDateTime)
 
 # A rising slope indicates an increasing barometric pressure,
 # which typically means fair and sunny weather. A falling slope
