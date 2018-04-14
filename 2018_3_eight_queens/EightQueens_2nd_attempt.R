@@ -5,17 +5,20 @@
 # More Learning: http://niemannross.com/link/mnratlil
 # Description: Code Clinic R: Solution 3. Eight Queens
 
-# load libraries and sources ----
+# load libraries and sources ----------------------------------------------
+# install.packages("combinat")
 setwd("~/CodeClinicR/2018_3_eight_queens")
 source("plotTheQueens.R")
 library(combinat)
 
-# test values
+# test values -------------------------------------------------------------
 fail_posDiagonal <- c(1,2,3,4,5,6,7,8) # fails because of positive diagonals
 fail_negDiagonal <- c(8,7,6,5,4,3,2,1) # fails because of negative diagonals
 fail_dupRows <- c(1,1,2,3,4,5,6,7) # fails because of duplicate rows
 validSolution <- c(7,5,3,1,6,8,2,4) # This should work
 
+
+# Solution ----------------------------------------------------------------
 
 # createDiagValues returns a vector identifying diagonal attack rows
 # ideas for speeding this up: cache diagonals
@@ -31,7 +34,7 @@ createDiagValues <- function(select_row, select_col, up_or_down = 1) {
   return(c(padWithZeros,diag_conflicts))
 }
 
-# 
+
 is_this_a_valid_8_queens <- function(potentialSolution) {
   # potentialSolution is a vector of 8 numbers representing row of each column
   
@@ -71,6 +74,8 @@ runQueen <- function() {
 
 system.time(runQueen())
 
+
+# Plot the solutions ------------------------------------------------------
 allValidSolutions <- allPossibleSolutions[validSolutions]
 
 progressBar <- txtProgressBar()
