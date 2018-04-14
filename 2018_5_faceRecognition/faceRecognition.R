@@ -11,7 +11,7 @@
 
 # install.packages("rjson")
 # install.packages("httr")
-# install.pacakges("imager")
+# install.packages("imager")
 
 library(rjson)
 library(httr)
