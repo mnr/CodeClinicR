@@ -51,7 +51,7 @@ tail(LPO_weather_data, n = 3)
 
 print(paste("Number of rows imported: ", nrow(LPO_weather_data)))
 
-# Description of the challenge --------------------------------------------
+# Calculate the Coefficient of Barometric Pressure --------------------------------------------
 # The problem is simple: Write a function that accepts ...
 # a beginning date and time
 # ...and...
