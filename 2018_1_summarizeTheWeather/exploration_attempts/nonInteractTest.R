@@ -1,12 +1,4 @@
-# import necessary libraries ----
-list.of.packages <- c("sqldf", "magrittr")
-new.packages <-
-  list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
-if (length(new.packages))
-  install.packages(new.packages, quiet = TRUE)
 
-library(sqldf, quietly = TRUE)
-# library(magrittr, quietly = TRUE)
 # 
 # # retrieve the data set ------------
 # lpoRawData <- "Environmental_Data_Deep_Moor_2015.txt" # this is a local subset for development purposes
