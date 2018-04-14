@@ -51,7 +51,7 @@ runTheremin <- function() {
   startMoveTime <<- NULL
   
   # set up tkinter
-  tt<-tktoplevel()
+  tt <- tktoplevel()
   tkbind(tt,"<B1-Motion>", handleMouse )
   tkbind(tt,"<ButtonRelease-1>", playSound )
   tkfocus(tt)
