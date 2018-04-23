@@ -29,7 +29,10 @@ readOneFile <- function(dataPath) {
              stringsAsFactors = FALSE)
 }
 
+myProgressBar <- txtProgressBar(min = 2012, max = 2015, style = 3)
+
 for (dataYear in 2012:2015) {
+  
   dataPath <-
     paste0(
       "https://raw.githubusercontent.com/lyndadotcom/LPO_weatherdata/master/Environmental_Data_Deep_Moor_",
@@ -43,6 +46,8 @@ for (dataYear in 2012:2015) {
   } else {
     LPO_weather_data <- readOneFile(dataPath)
   }
+  setTxtProgressBar(myProgressBar, value = dataYear)
+  
 }
 
 # confirm the results of the import
