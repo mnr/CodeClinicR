@@ -5,6 +5,9 @@
 # More Learning: http://niemannross.com/link/mnratlil
 # Description: Code Clinic R: Solution 1. Weather
 
+
+# setup and libraries -----------------------------------------------------
+
 library(magrittr)
 library(lubridate)
 
