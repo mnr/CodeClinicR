@@ -32,6 +32,8 @@ myLocation <- fromJSON(readLines("http://freegeoip.net/json/"))
 
 maprange = 5
 
+# dev.new(width=5, height=4) adjusts size of plotted map
+
 map("worldHires", 
     xlim = c(myLocation$longitude-maprange, myLocation$longitude+maprange),
     ylim = c(myLocation$latitude-maprange, myLocation$latitude+maprange),
@@ -39,6 +41,6 @@ map("worldHires",
     mar = c(1.1, 1.1, par("mar")[3], 2))
 points(myLocation$longitude, myLocation$latitude, col="red", pch = 8, cex = 1)
 title(paste(myLocation$city, ", ", myLocation$region_code, " - ", myLocation$country_name))
-
+map.cities( label = TRUE, minpop = 500000)
 
 
