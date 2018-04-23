@@ -34,10 +34,10 @@ latlong <- strsplit(myLocation$loc, ",")
 myLongitude <- as.numeric(latlong[[1]][2])
 myLatitude <- as.numeric(unlist(latlong)[1])
 
-maprange = 5
 
 # map the location --------------------------------------------------------
 
+maprange = 5
 
 map("worldHires", 
     xlim = c(myLongitude-maprange, myLongitude+maprange),
