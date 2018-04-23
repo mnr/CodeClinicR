@@ -1,9 +1,16 @@
+# attribution -------------------------------------------------------------
+
 # Copyright Mark Niemann-Ross, 2018
 # Author: Mark Niemann-Ross. mark.niemannross@gmail.com
 # LinkedIn: https://www.linkedin.com/in/markniemannross/
 # Github: https://github.com/mnr
 # More Learning: http://niemannross.com/link/mnratlil
 # Description: Code Clinic R: Solution 2. Where Am I
+
+
+
+# setup -------------------------------------------------------------------
+
 
 # create a geolocation app 
 # to show the location of the computer running their code. 
@@ -17,6 +24,9 @@
 library(rjson)
 library(maps)
 library(mapdata)
+
+# Geolocation -------------------------------------------------------------
+
 
 myLocation <- fromJSON(readLines("http://freegeoip.net/json/"))
 
