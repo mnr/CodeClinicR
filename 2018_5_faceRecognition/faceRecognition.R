@@ -1,3 +1,7 @@
+
+# Remarks -----------------------------------------------------------------
+
+
 # Copyright Mark Niemann-Ross, 2018
 # Author: Mark Niemann-Ross. mark.niemannross@gmail.com
 # LinkedIn: https://www.linkedin.com/in/markniemannross/
@@ -9,6 +13,10 @@
 # get a subscription key - https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/vision-api-how-to-topics/howtosubscribe
 # https://azure.microsoft.com/en-us/try/cognitive-services/my-apis/
 
+
+# setup -------------------------------------------------------------------
+
+
 # install.packages("rjson")
 # install.packages("httr")
 # install.packages("imager")
@@ -16,6 +24,9 @@
 library(rjson)
 library(httr)
 library(imager)
+
+# Web API -----------------------------------------------------------------
+
 
 recognizeFaces <- function(imageWithFaces) {
   # imageWithFaces is a URL to a jpeg, gif or png
@@ -26,12 +37,16 @@ recognizeFaces <- function(imageWithFaces) {
   theURLtoSend <- paste0(endpoint,FaceRecogURL)
   theBodytoSend <- paste0('{"url": "',imageWithFaces,'"}')
   
+  # get a subscription key - https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/vision-api-how-to-topics/howtosubscribe
+  apiKey <- "put your subscription key here"
+  
   thePostResults <- POST(theURLtoSend, 
-       add_headers( "Ocp-Apim-Subscription-Key" = "7a533dd6c382492daa3b83b480e85d7c" ),
+       add_headers( "Ocp-Apim-Subscription-Key" = apiKey ),
        body = theBodytoSend,
        encode = "json"
        )
   thePRfromJSON <- fromJSON(content(thePostResults, "text"))
+
 
   # display image with boxes
   storeImageHere <- file.path(getwd(),"tempfacefile")
@@ -57,7 +72,7 @@ recognizeFaces <- function(imageWithFaces) {
   # return face count
   results <- list(countfaces = length(thePRfromJSON), 
                   imageLocation = facesWithBoxes)
-  return(toJSON(results))
+  write(toJSON(results), file = "faceData.json")
 }
 
 recognizeFaces("https://www.nasa.gov/sites/default/files/iss038-s-002.jpg")
