@@ -1,3 +1,7 @@
+
+# remarks -----------------------------------------------------------------
+
+
 # Copyright Mark Niemann-Ross, 2018
 # Author: Mark Niemann-Ross. mark.niemannross@gmail.com
 # LinkedIn: https://www.linkedin.com/in/markniemannross/
@@ -7,11 +11,17 @@
 
 # https://stat.ethz.ch/R-manual/R-devel/library/tcltk/html/tcltk-package.html
 
+# setup -------------------------------------------------------------------
+
+
 # install.packages("tcltk")
 # install.packages("sonify")
 
 library(tcltk)
 library(sonify)
+
+# initialize tcl/tk -------------------------------------------------------
+
 
 mouseCapture <- data.frame(xMouse = numeric(0), 
                            yMouse = numeric(0))
@@ -30,6 +40,9 @@ handleMouse <- function(x, y) {
   mouseCapture <<- rbind(localMC, newDF)
 }
 
+# play sound --------------------------------------------------------------
+
+
 playSound <- function() {
   #<ButtonRelease-1>
   moveTime <- as.numeric(Sys.time() - startMoveTime)
@@ -43,6 +56,9 @@ playSound <- function() {
          pulse_amp = mouseCapture$xMouse/255 )
 
 }
+
+# start the theremin ------------------------------------------------------
+
 
 runTheremin <- function() {
   # reset the counters
