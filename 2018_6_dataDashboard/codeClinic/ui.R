@@ -1,3 +1,5 @@
+# remarks -----------------------------------------------------------------
+
 # Copyright Mark Niemann-Ross, 2018
 # Author: Mark Niemann-Ross. mark.niemannross@gmail.com
 # LinkedIn: https://www.linkedin.com/in/markniemannross/
@@ -5,7 +7,14 @@
 # More Learning: http://niemannross.com/link/mnratlil
 # Description: Code Clinic R: Solution 6. data dashboard
 
+# setup -------------------------------------------------------------------
+
+# install.packages("shiny")
+
 library(shiny)
+
+# shiny ui ----------------------------------------------------------------
+
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
